@@ -13,6 +13,7 @@
 		E45518EB2C98383B005DBD9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E45518EA2C98383B005DBD9B /* Assets.xcassets */; };
 		E45518F92C98383B005DBD9B /* TodosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45518F82C98383B005DBD9B /* TodosTests.swift */; };
 		E4F711552C9839E3000CC916 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F711542C9839E3000CC916 /* StorageManager.swift */; };
+		E4F711572C983DD3000CC916 /* TitleStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F711562C983DD3000CC916 /* TitleStackView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,7 @@
 		E45518F42C98383B005DBD9B /* TodosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E45518F82C98383B005DBD9B /* TodosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosTests.swift; sourceTree = "<group>"; };
 		E4F711542C9839E3000CC916 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		E4F711562C983DD3000CC916 /* TitleStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleStackView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 		E4F711522C9838D9000CC916 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E4F711562C983DD3000CC916 /* TitleStackView.swift */,
 				E45518E22C98383A005DBD9B /* ViewController.swift */,
 			);
 			path = Views;
@@ -235,6 +238,7 @@
 			files = (
 				E45518E32C98383A005DBD9B /* ViewController.swift in Sources */,
 				E45518DF2C98383A005DBD9B /* AppDelegate.swift in Sources */,
+				E4F711572C983DD3000CC916 /* TitleStackView.swift in Sources */,
 				E45518E92C98383A005DBD9B /* Todos.xcdatamodeld in Sources */,
 				E4F711552C9839E3000CC916 /* StorageManager.swift in Sources */,
 			);
