@@ -8,12 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		E45518DF2C98383A005DBD9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45518DE2C98383A005DBD9B /* AppDelegate.swift */; };
-		E45518E32C98383A005DBD9B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45518E22C98383A005DBD9B /* ViewController.swift */; };
+		E45518E32C98383A005DBD9B /* TaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45518E22C98383A005DBD9B /* TaskListViewController.swift */; };
 		E45518E92C98383A005DBD9B /* Todos.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E45518E72C98383A005DBD9B /* Todos.xcdatamodeld */; };
 		E45518EB2C98383B005DBD9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E45518EA2C98383B005DBD9B /* Assets.xcassets */; };
 		E45518F92C98383B005DBD9B /* TodosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45518F82C98383B005DBD9B /* TodosTests.swift */; };
 		E4F711552C9839E3000CC916 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F711542C9839E3000CC916 /* StorageManager.swift */; };
 		E4F711572C983DD3000CC916 /* TitleStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F711562C983DD3000CC916 /* TitleStackView.swift */; };
+		E4F7115B2C9864B3000CC916 /* SortTasksButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F7115A2C9864B3000CC916 /* SortTasksButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,7 +30,7 @@
 /* Begin PBXFileReference section */
 		E45518DB2C98383A005DBD9B /* Todos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E45518DE2C98383A005DBD9B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E45518E22C98383A005DBD9B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E45518E22C98383A005DBD9B /* TaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewController.swift; sourceTree = "<group>"; };
 		E45518E82C98383A005DBD9B /* Todos.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Todos.xcdatamodel; sourceTree = "<group>"; };
 		E45518EA2C98383B005DBD9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E45518EF2C98383B005DBD9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -37,6 +38,7 @@
 		E45518F82C98383B005DBD9B /* TodosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosTests.swift; sourceTree = "<group>"; };
 		E4F711542C9839E3000CC916 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		E4F711562C983DD3000CC916 /* TitleStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleStackView.swift; sourceTree = "<group>"; };
+		E4F7115A2C9864B3000CC916 /* SortTasksButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTasksButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,7 +126,8 @@
 			isa = PBXGroup;
 			children = (
 				E4F711562C983DD3000CC916 /* TitleStackView.swift */,
-				E45518E22C98383A005DBD9B /* ViewController.swift */,
+				E4F7115A2C9864B3000CC916 /* SortTasksButton.swift */,
+				E45518E22C98383A005DBD9B /* TaskListViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -236,7 +239,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E45518E32C98383A005DBD9B /* ViewController.swift in Sources */,
+				E4F7115B2C9864B3000CC916 /* SortTasksButton.swift in Sources */,
+				E45518E32C98383A005DBD9B /* TaskListViewController.swift in Sources */,
 				E45518DF2C98383A005DBD9B /* AppDelegate.swift in Sources */,
 				E4F711572C983DD3000CC916 /* TitleStackView.swift in Sources */,
 				E45518E92C98383A005DBD9B /* Todos.xcdatamodeld in Sources */,

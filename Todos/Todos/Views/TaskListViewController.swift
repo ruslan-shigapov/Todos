@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  TaskListViewController.swift
 //  Todos
 //
 //  Created by Ruslan Shigapov on 16.09.2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class TaskListViewController: UIViewController {
     
     // MARK: Views
     private let titleStackView = TitleStackView()
@@ -22,11 +22,33 @@ final class ViewController: UIViewController {
             for: .touchUpInside)
         return button
     }()
+    
+    private let showAllTasksButton = SortTasksButton(selection: .all)
+    private let showOpenTasksButton = SortTasksButton(selection: .open)
+    private let showClosedTasksButton = SortTasksButton(selection: .closed)
+    
+    private lazy var selectionStackView: UIStackView = {
+        let dividerView = UIView()
+        dividerView.widthAnchor.constraint(equalToConstant: 3).isActive = true
+        dividerView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        dividerView.backgroundColor = .lightGray
+        dividerView.layer.cornerRadius = 1
+        let stackView = UIStackView(
+            arrangedSubviews: [
+                showAllTasksButton,
+                dividerView,
+                showOpenTasksButton,
+                showClosedTasksButton
+            ])
+        stackView.spacing = 24
+        return stackView
+    }()
 
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        addTargets()
     }
     
     // MARK: Setup
@@ -34,16 +56,30 @@ final class ViewController: UIViewController {
         view.backgroundColor = .background
         view.addSubview(titleStackView)
         view.addSubview(addNewTaskButton)
+        view.addSubview(selectionStackView)
         setupContent()
         setConstraints()
     }
     
     private func setupContent() {
         titleStackView.configure(
-            withTitle: "Today's Task",
+            withTitle: "Today's Tasks",
             description: "Wednesday, 11 May")
     }
     
+    private func addTargets() {
+        [
+            showAllTasksButton,
+            showOpenTasksButton,
+            showClosedTasksButton
+        ].forEach {
+            $0.addTarget(
+                self,
+                action: #selector(showSelectedTasks),
+                for: .touchUpInside)
+        }
+    }
+
     private func getCustomizedButtonConfiguration() -> UIButton.Configuration {
         var buttonConfiguration = UIButton.Configuration.tinted()
         let symbolConfiguration = UIImage.SymbolConfiguration(
@@ -68,16 +104,19 @@ final class ViewController: UIViewController {
     @objc private func addNewTaskButtonTapped() {
         
     }
+    
+    @objc private func showSelectedTasks(_ sender: UIButton) {
+        
+    }
 }
 
 // MARK: - Layout
-extension ViewController {
+extension TaskListViewController {
     
     private func setConstraints() {
         view.subviews.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        
         NSLayoutConstraint.activate([
             titleStackView.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -89,7 +128,14 @@ extension ViewController {
                 equalTo: view.trailingAnchor,
                 constant: -24),
             addNewTaskButton.centerYAnchor.constraint(
-                equalTo: titleStackView.centerYAnchor)
+                equalTo: titleStackView.centerYAnchor),
+            
+            selectionStackView.topAnchor.constraint(
+                equalTo: titleStackView.bottomAnchor,
+                constant: 32),
+            selectionStackView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: 24),
         ])
     }
 }
