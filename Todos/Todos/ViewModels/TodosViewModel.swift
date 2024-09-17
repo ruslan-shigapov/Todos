@@ -1,5 +1,5 @@
 //
-//  TaskListViewModel.swift
+//  TodosViewModel.swift
 //  Todos
 //
 //  Created by Ruslan Shigapov on 17.09.2024.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol TaskListViewModelProtocol {
+protocol TodosViewModelProtocol {
     func getCurrentFormattedDate() -> String
 }
 
-final class TaskListViewModel: TaskListViewModelProtocol {
+final class TodosViewModel: TodosViewModelProtocol {
     
     func getCurrentFormattedDate() -> String {
         let dateFormatter = DateFormatter()

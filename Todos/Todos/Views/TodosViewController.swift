@@ -1,5 +1,5 @@
 //
-//  TaskListViewController.swift
+//  TodosViewController.swift
 //  Todos
 //
 //  Created by Ruslan Shigapov on 16.09.2024.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-final class TaskListViewController: UIViewController {
+final class TodosViewController: UIViewController {
     
     // MARK: Private Properties
-    private let viewModel: TaskListViewModelProtocol
+    private let viewModel: TodosViewModelProtocol
     
     // MARK: Views
     private let titleStackView = TitleStackView()
@@ -44,8 +44,11 @@ final class TaskListViewController: UIViewController {
         return stackView
     }()
     
+    private lazy var taskListCollectionView = TaskListCollectionView(
+        viewModel: viewModel) 
+    
     // MARK: Initialize
-    init(viewModel: TaskListViewModelProtocol) {
+    init(viewModel: TodosViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -65,11 +68,16 @@ final class TaskListViewController: UIViewController {
     // MARK: Private Methods
     private func setupUI() {
         view.backgroundColor = .background
+        addSubviews()
+        setupContent()
+        setConstraints()
+    }
+    
+    private func addSubviews() {
         view.addSubview(titleStackView)
         view.addSubview(addNewTaskButton)
         view.addSubview(selectionStackView)
-        setupContent()
-        setConstraints()
+        view.addSubview(taskListCollectionView)
     }
     
     private func setupContent() {
@@ -123,9 +131,9 @@ final class TaskListViewController: UIViewController {
 }
 
 // MARK: - Layout
-extension TaskListViewController {
+private extension TodosViewController {
     
-    private func setConstraints() {
+    func setConstraints() {
         view.subviews.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -148,6 +156,16 @@ extension TaskListViewController {
             selectionStackView.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor,
                 constant: 24),
+            
+            taskListCollectionView.topAnchor.constraint(
+                equalTo: selectionStackView.bottomAnchor,
+                constant: 12),
+            taskListCollectionView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor),
+            taskListCollectionView.bottomAnchor.constraint(
+                equalTo: view.bottomAnchor),
+            taskListCollectionView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor)
         ])
     }
 }

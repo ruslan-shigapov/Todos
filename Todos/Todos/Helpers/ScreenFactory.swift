@@ -7,8 +7,8 @@
 
 struct ScreenFactory {
     
-    static func getTaskListViewController() -> TaskListViewController {
-        let viewModel = TaskListViewModel()
-        return TaskListViewController(viewModel: viewModel)
+    static func getTodosViewController() -> TodosViewController {
+        let viewModel = TodosViewModel()
+        return TodosViewController(viewModel: viewModel)
     }
 }
