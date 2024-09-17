@@ -9,6 +9,9 @@ import UIKit
 
 final class TaskListViewController: UIViewController {
     
+    // MARK: Private Properties
+    private let viewModel: TaskListViewModelProtocol
+    
     // MARK: Views
     private let titleStackView = TitleStackView()
     
@@ -23,27 +26,35 @@ final class TaskListViewController: UIViewController {
         return button
     }()
     
-    private let showAllTasksButton = SortTasksButton(selection: .all)
-    private let showOpenTasksButton = SortTasksButton(selection: .open)
-    private let showClosedTasksButton = SortTasksButton(selection: .closed)
+    private let sortTasksButtons = [
+        SortTasksButton(selection: .all),
+        SortTasksButton(selection: .open),
+        SortTasksButton(selection: .closed)
+    ]
     
     private lazy var selectionStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: sortTasksButtons)
         let dividerView = UIView()
         dividerView.widthAnchor.constraint(equalToConstant: 3).isActive = true
         dividerView.heightAnchor.constraint(equalToConstant: 20).isActive = true
         dividerView.backgroundColor = .lightGray
         dividerView.layer.cornerRadius = 1
-        let stackView = UIStackView(
-            arrangedSubviews: [
-                showAllTasksButton,
-                dividerView,
-                showOpenTasksButton,
-                showClosedTasksButton
-            ])
+        stackView.insertArrangedSubview(dividerView, at: 1)
         stackView.spacing = 24
         return stackView
     }()
-
+    
+    // MARK: Initialize
+    init(viewModel: TaskListViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +62,7 @@ final class TaskListViewController: UIViewController {
         addTargets()
     }
     
-    // MARK: Setup
+    // MARK: Private Methods
     private func setupUI() {
         view.backgroundColor = .background
         view.addSubview(titleStackView)
@@ -63,19 +74,15 @@ final class TaskListViewController: UIViewController {
     
     private func setupContent() {
         titleStackView.configure(
-            withTitle: "Today's Tasks",
-            description: "Wednesday, 11 May")
+            withTitle: Constants.mainTitle,
+            description: viewModel.getCurrentFormattedDate())
     }
     
     private func addTargets() {
-        [
-            showAllTasksButton,
-            showOpenTasksButton,
-            showClosedTasksButton
-        ].forEach {
+        sortTasksButtons.forEach {
             $0.addTarget(
                 self,
-                action: #selector(showSelectedTasks),
+                action: #selector(sortTasksButtonTapped),
                 for: .touchUpInside)
         }
     }
@@ -86,9 +93,9 @@ final class TaskListViewController: UIViewController {
             pointSize: 14,
             weight: .bold)
         buttonConfiguration.image = UIImage(
-            systemName: "plus",
+            systemName: Constants.plusImageName,
             withConfiguration: symbolConfiguration)
-        var attributedTitle = AttributedString("New Task")
+        var attributedTitle = AttributedString(Constants.addNewTaskButtonTitle)
         attributedTitle.font = .systemFont(ofSize: 16, weight: .semibold)
         buttonConfiguration.attributedTitle = attributedTitle
         buttonConfiguration.contentInsets = .init(
@@ -100,13 +107,18 @@ final class TaskListViewController: UIViewController {
         return buttonConfiguration
     }
     
-    // MARK: Actions
-    @objc private func addNewTaskButtonTapped() {
-        
-    }
+    @objc private func addNewTaskButtonTapped() {}
     
-    @objc private func showSelectedTasks(_ sender: UIButton) {
-        
+    @objc private func sortTasksButtonTapped(_ sender: UIButton) {
+        sortTasksButtons.forEach { $0.isSelected = false }
+        sender.isSelected = true
+        if let sortTasksButton = sender as? SortTasksButton {
+            switch sortTasksButton.selection {
+            case .open: print("show only open tasks")
+            case .closed: print("show only closed tasks")
+            default: print("show all tasks")
+            }
+        }
     }
 }
 

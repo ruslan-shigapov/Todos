@@ -14,10 +14,10 @@ enum SortTasksButtonSelection: String {
 final class SortTasksButton: UIButton {
 
     // MARK: Views
-    private let selectionNameLabel: UILabel = {
+    private lazy var selectionNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .semibold)
-        label.textColor = .gray
+        label.text = selection.rawValue.capitalized
         return label
     }()
     
@@ -26,13 +26,12 @@ final class SortTasksButton: UIButton {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 14, weight: .semibold)
         label.textColor = .background
-        label.text = "35"
+        label.text = "35" // TODO: calculate sorted tasks count 
         return label
     }()
     
     private lazy var roundedView: UIView = {
         let view = UIView()
-        view.backgroundColor = .lightGray
         view.addSubview(sortedTasksCountLabel)
         view.layer.cornerRadius = 10
         return view
@@ -46,11 +45,26 @@ final class SortTasksButton: UIButton {
         stackView.spacing = 8
         return stackView
     }()
+    
+    // MARK: Public Properties
+    let selection: SortTasksButtonSelection
+    
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                selectionNameLabel.textColor = .link
+                roundedView.backgroundColor = .link
+            } else {
+                selectionNameLabel.textColor = .gray
+                roundedView.backgroundColor = .lightGray
+            }
+        }
+    }
         
     // MARK: Initialize
     init(selection: SortTasksButtonSelection) {
+        self.selection = selection
         super.init(frame: .zero)
-        selectionNameLabel.text = selection.rawValue.capitalized
         setupUI()
     }
     
@@ -59,8 +73,9 @@ final class SortTasksButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: Setup
+    // MARK: Private Methods
     private func setupUI() {
+        isSelected = selection == .all
         addSubview(containerStackView)
         setConstraints()
     }
