@@ -19,7 +19,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         ]?
     ) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = ScreenFactory.getTaskListViewController()
+        window?.rootViewController = ScreenFactory.getTodosViewController()
         window?.makeKeyAndVisible()
         return true
     }

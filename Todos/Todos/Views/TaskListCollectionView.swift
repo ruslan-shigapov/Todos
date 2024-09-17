@@ -40,7 +40,7 @@ extension TaskListCollectionView: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        CGSize(width: collectionView.bounds.width - 48, height: 150)
+        CGSize(width: collectionView.bounds.width - 48, height: 140)
     }
     
     func collectionView(

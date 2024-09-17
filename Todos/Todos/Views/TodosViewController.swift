@@ -13,7 +13,7 @@ final class TodosViewController: UIViewController {
     private let viewModel: TodosViewModelProtocol
     
     // MARK: Views
-    private let titleStackView = TitleStackView()
+    private let titleStackView = TitleStackView(placement: .main)
     
     private lazy var addNewTaskButton: UIButton = {
         let button = UIButton(configuration: getCustomizedButtonConfiguration())
@@ -37,7 +37,7 @@ final class TodosViewController: UIViewController {
         let dividerView = UIView()
         dividerView.widthAnchor.constraint(equalToConstant: 3).isActive = true
         dividerView.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        dividerView.backgroundColor = .lightGray
+        dividerView.backgroundColor = .lightGray.withAlphaComponent(0.5)
         dividerView.layer.cornerRadius = 1
         stackView.insertArrangedSubview(dividerView, at: 1)
         stackView.spacing = 24

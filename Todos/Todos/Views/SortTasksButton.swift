@@ -24,7 +24,7 @@ final class SortTasksButton: UIButton {
     private let sortedTasksCountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 14, weight: .semibold)
+        label.font = .systemFont(ofSize: 12, weight: .semibold)
         label.textColor = .background
         label.text = "35" // TODO: calculate sorted tasks count 
         return label
@@ -56,7 +56,7 @@ final class SortTasksButton: UIButton {
                 roundedView.backgroundColor = .link
             } else {
                 selectionNameLabel.textColor = .gray
-                roundedView.backgroundColor = .lightGray
+                roundedView.backgroundColor = .lightGray.withAlphaComponent(0.5)
             }
         }
     }

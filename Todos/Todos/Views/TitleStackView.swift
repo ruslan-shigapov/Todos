@@ -7,25 +7,28 @@
 
 import UIKit
 
+enum TitleStackViewPlacement {
+    case main, cell
+}
+
 final class TitleStackView: UIStackView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 26, weight: .bold)
         label.textColor = .black
         return label
     }()
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.textColor = .gray
         return label
     }()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    
+    init(placement: TitleStackViewPlacement) {
+        super.init(frame: .zero)
         setupUI()
+        setupFonts(for: placement)
     }
     
     @available(*, unavailable)
@@ -38,6 +41,15 @@ final class TitleStackView: UIStackView {
         addArrangedSubview(descriptionLabel)
         axis = .vertical
         spacing = 4
+    }
+    
+    private func setupFonts(for placement: TitleStackViewPlacement) {
+        titleLabel.font = .systemFont(
+            ofSize: placement == .main ? 26 : 21,
+            weight: placement == .main ? .semibold : .medium)
+        descriptionLabel.font = .systemFont(
+            ofSize: placement == .main ? 17 : 15,
+            weight: .medium)
     }
     
     func configure(withTitle title: String, description: String) {
