@@ -13,10 +13,7 @@ final class TodosViewController: UIViewController {
     private let viewModel: TodosViewModelProtocol
     
     // MARK: Views
-    private lazy var titleStackView = TitleStackView(
-        placement: .main,
-        titleText: Constants.mainTitle,
-        descriptionText: viewModel.getCurrentFormattedDate())
+    private lazy var titleStackView = TitleStackView(placement: .main)
     
     private lazy var addNewTaskButton: UIButton = {
         let button = UIButton(configuration: getCustomizedButtonConfiguration())
@@ -48,7 +45,14 @@ final class TodosViewController: UIViewController {
     }()
     
     private lazy var taskListCollectionView = TaskListCollectionView(
-        viewModel: viewModel) 
+        viewModel: viewModel)
+    
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = .lightGray
+        activityIndicator.hidesWhenStopped = true
+        return activityIndicator
+    }()
     
     // MARK: Initialize
     init(viewModel: TodosViewModelProtocol) {
@@ -81,6 +85,7 @@ final class TodosViewController: UIViewController {
         view.addSubview(addNewTaskButton)
         view.addSubview(selectionStackView)
         view.addSubview(taskListCollectionView)
+        view.addSubview(loadingIndicator)
     }
     
     private func addTargets() {
@@ -93,7 +98,10 @@ final class TodosViewController: UIViewController {
     }
     
     private func setupContent() {
-        // TODO: add indicator
+        titleStackView.configure(
+            withTitle: Constants.mainTitle,
+            description: viewModel.getCurrentFormattedDate())
+        loadingIndicator.startAnimating()
         viewModel.fetchTasks { [weak self] in
             guard let self else { return }
             taskListCollectionView.reloadData()
@@ -105,6 +113,10 @@ final class TodosViewController: UIViewController {
                 }
                 $0.configure(withSortedTasksCount: tasksCount)
             }
+            loadingIndicator.stopAnimating()
+        } errorHandler: { [weak self] in
+            guard let self else { return }
+            loadingIndicator.stopAnimating()
         }
     }
 
@@ -133,6 +145,7 @@ final class TodosViewController: UIViewController {
     }
     
     @objc private func sortTasksButtonTapped(_ sender: UIButton) {
+        // TODO: setup sorting 
         sortTasksButtons.forEach { $0.isSelected = false }
         sender.isSelected = true
         if let sortTasksButton = sender as? SortTasksButton {
@@ -180,7 +193,12 @@ private extension TodosViewController {
             taskListCollectionView.bottomAnchor.constraint(
                 equalTo: view.bottomAnchor),
             taskListCollectionView.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor)
+                equalTo: view.trailingAnchor),
+            
+            loadingIndicator.centerXAnchor.constraint(
+                equalTo: view.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(
+                equalTo: view.centerYAnchor)
         ])
     }
 }

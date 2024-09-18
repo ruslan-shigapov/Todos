@@ -12,11 +12,7 @@ final class TaskCollectionViewCell: UICollectionViewCell {
     static var identifier = String(describing: TaskCollectionViewCell.self)
     
     // MARK: Views
-    private let titleStackView = TitleStackView(
-        placement: .cell,
-        titleText: "Review with Client",
-        descriptionText: "Product Team",
-        shouldTitleBeCrossedOut: false)
+    private lazy var titleStackView = TitleStackView(placement: .cell)
         
     private lazy var markTaskButton: UIButton = {
         let button = UIButton(type: .system)
@@ -47,17 +43,16 @@ final class TaskCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    private let dateLabel: UILabel = {
+    private let todayLabel: UILabel = {
         let label = UILabel()
-        label.text = "Today"
+        label.text = Constants.today
         label.textColor = .lightGray
         label.font = .systemFont(ofSize: 15, weight: .semibold)
         return label
     }()
     
-    private let durationLabel: UILabel = {
+    private lazy var durationLabel: UILabel = {
         let label = UILabel()
-        label.text = "01:00 PM - 03:00 PM"
         label.textColor = .lightGray.withAlphaComponent(0.5)
         label.font = .systemFont(ofSize: 15, weight: .semibold)
         return label
@@ -65,10 +60,23 @@ final class TaskCollectionViewCell: UICollectionViewCell {
     
     private lazy var infoStackView: UIStackView = {
         let stackView = UIStackView(
-            arrangedSubviews: [dateLabel, durationLabel])
+            arrangedSubviews: [todayLabel, durationLabel])
         stackView.spacing = 8
         return stackView
     }()
+    
+    weak var viewModel: TaskCellViewModelProtocol? {
+        didSet {
+            guard let viewModel else { return }
+            titleStackView.configure(
+                withTitle: viewModel.title,
+                description: viewModel.description,
+                shouldTitleBeCrossedOut: viewModel.isClosed)
+            durationLabel.text = viewModel.duration
+            markTaskButton.isSelected = viewModel.isClosed
+            setupButtonColor()
+        }
+    }
     
     // MARK: Lifecycle
     override func layoutSubviews() {
@@ -117,9 +125,9 @@ final class TaskCollectionViewCell: UICollectionViewCell {
         : .lightGray.withAlphaComponent(0.5)
     }
     
-    @objc private func markTaskButtonTapped(_ sender: UIButton) {
+    @objc private func markTaskButtonTapped() {
         titleStackView.toggleTitleStrikethrough()
-        sender.isSelected.toggle()
+        markTaskButton.isSelected.toggle()
         setupButtonColor()
     }
 }
@@ -138,6 +146,9 @@ private extension TaskCollectionViewCell {
             titleStackView.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
                 constant: 24),
+            titleStackView.trailingAnchor.constraint(
+                equalTo: markTaskButton.leadingAnchor,
+                constant: -24),
             
             markTaskButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
             markTaskButton.heightAnchor.constraint(equalToConstant: 32),

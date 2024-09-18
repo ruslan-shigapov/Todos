@@ -9,10 +9,14 @@ import Foundation
 
 protocol TodosViewModelProtocol {
     func getCurrentFormattedDate() -> String
-    func fetchTasks(completion: @escaping () -> Void)
+    func fetchTasks(
+        completion: @escaping () -> Void,
+        errorHandler: @escaping () -> Void
+    )
     func getNumberOfItems() -> Int
     func getNumberOfClosedTasks() -> Int
     func getNumberOfOpenTasks() -> Int
+    func getTaskCellViewModel(at index: Int) -> TaskCellViewModelProtocol
 }
 
 final class TodosViewModel: TodosViewModelProtocol {
@@ -25,7 +29,10 @@ final class TodosViewModel: TodosViewModelProtocol {
         return dateFormatter.string(from: Date())
     }
     
-    func fetchTasks(completion: @escaping () -> Void) {
+    func fetchTasks(
+        completion: @escaping () -> Void,
+        errorHandler: @escaping () -> Void
+    ) {
         NetworkManager.shared.fetchTasks { [weak self] result in
             guard let self else { return }
             switch result {
@@ -35,7 +42,10 @@ final class TodosViewModel: TodosViewModelProtocol {
                     completion()
                 }
             case .failure(let error):
-                print(error)
+                DispatchQueue.main.async {
+                    print(error)
+                    errorHandler()
+                }
             }
         }
     }
@@ -50,5 +60,9 @@ final class TodosViewModel: TodosViewModelProtocol {
     
     func getNumberOfOpenTasks() -> Int {
         tasks.count - getNumberOfClosedTasks()
+    }
+    
+    func getTaskCellViewModel(at index: Int) -> TaskCellViewModelProtocol {
+        TaskCellViewModel(task: tasks[index])
     }
 }

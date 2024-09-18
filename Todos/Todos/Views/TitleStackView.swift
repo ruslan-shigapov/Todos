@@ -14,13 +14,13 @@ enum TitleStackViewPlacement {
 final class TitleStackView: UIStackView {
     
     // MARK: Private Properties
-    private let titleText: String
+    private var titleText = ""
     
-    private var shouldTitleBeCrossedOut: Bool {
+    private var shouldTitleBeCrossedOut: Bool = false {
         didSet {
             if shouldTitleBeCrossedOut {
                 let strikethroughText = NSAttributedString(
-                    string: titleLabel.text ?? "",
+                    string: titleText,
                     attributes: [
                         .strikethroughStyle : NSUnderlineStyle.single.rawValue,
                         .strikethroughColor : UIColor.gray
@@ -34,9 +34,8 @@ final class TitleStackView: UIStackView {
     }
 
     // MARK: Views
-    private lazy var titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = titleText
         label.textColor = .black
         return label
     }()
@@ -48,17 +47,9 @@ final class TitleStackView: UIStackView {
     }()
     
     // MARK: Initialize
-    init(
-        placement: TitleStackViewPlacement,
-        titleText: String,
-        descriptionText: String,
-        shouldTitleBeCrossedOut: Bool = false
-    ) {
-        self.titleText = titleText
-        self.shouldTitleBeCrossedOut = shouldTitleBeCrossedOut
+    init(placement: TitleStackViewPlacement) {
         super.init(frame: .zero)
         setupUI()
-        descriptionLabel.text = descriptionText
         setupFonts(for: placement)
     }
     
@@ -87,6 +78,16 @@ final class TitleStackView: UIStackView {
     }
     
     // MARK: Public Methods
+    func configure(
+        withTitle title: String,
+        description: String,
+        shouldTitleBeCrossedOut: Bool = false
+    ) {
+        titleText = title
+        descriptionLabel.text = description
+        self.shouldTitleBeCrossedOut = shouldTitleBeCrossedOut
+    }
+    
     func toggleTitleStrikethrough() {
         shouldTitleBeCrossedOut.toggle()
     }

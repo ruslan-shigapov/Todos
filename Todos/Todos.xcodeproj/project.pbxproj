@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E42A0EE32C9ADAD300477D00 /* Tasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42A0EE22C9ADAD300477D00 /* Tasks.swift */; };
 		E42A0EE52C9ADBF800477D00 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42A0EE42C9ADBF800477D00 /* NetworkManager.swift */; };
+		E42A0EE72C9AF7AA00477D00 /* TaskCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42A0EE62C9AF7AA00477D00 /* TaskCellViewModel.swift */; };
 		E4383E502C99857F0093B7FA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4383E4F2C99857F0093B7FA /* Constants.swift */; };
 		E4383E532C9993AF0093B7FA /* TodosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4383E522C9993AF0093B7FA /* TodosViewModel.swift */; };
 		E4383E552C99947F0093B7FA /* ScreenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4383E542C99947F0093B7FA /* ScreenFactory.swift */; };
@@ -37,6 +38,7 @@
 /* Begin PBXFileReference section */
 		E42A0EE22C9ADAD300477D00 /* Tasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tasks.swift; sourceTree = "<group>"; };
 		E42A0EE42C9ADBF800477D00 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		E42A0EE62C9AF7AA00477D00 /* TaskCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellViewModel.swift; sourceTree = "<group>"; };
 		E4383E4F2C99857F0093B7FA /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E4383E522C9993AF0093B7FA /* TodosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosViewModel.swift; sourceTree = "<group>"; };
 		E4383E542C99947F0093B7FA /* ScreenFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenFactory.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				E4383E522C9993AF0093B7FA /* TodosViewModel.swift */,
+				E42A0EE62C9AF7AA00477D00 /* TaskCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 				E4F711572C983DD3000CC916 /* TitleStackView.swift in Sources */,
 				E42A0EE32C9ADAD300477D00 /* Tasks.swift in Sources */,
 				E4383E502C99857F0093B7FA /* Constants.swift in Sources */,
+				E42A0EE72C9AF7AA00477D00 /* TaskCellViewModel.swift in Sources */,
 				E4383E532C9993AF0093B7FA /* TodosViewModel.swift in Sources */,
 				E45518E92C98383A005DBD9B /* Todos.xcdatamodeld in Sources */,
 				E4F711552C9839E3000CC916 /* StorageManager.swift in Sources */,

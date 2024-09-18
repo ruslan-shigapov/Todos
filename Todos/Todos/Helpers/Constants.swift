@@ -12,4 +12,5 @@ enum Constants {
     static let zero = "0"
     static let circleImageName = "circle"
     static let checkmarkImageName = "checkmark.circle.fill"
+    static let today = "Today"
 }

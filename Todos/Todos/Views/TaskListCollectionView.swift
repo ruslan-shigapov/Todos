@@ -82,6 +82,7 @@ extension TaskListCollectionView: UICollectionViewDataSource {
                 describing: TaskCollectionViewCell.identifier),
             for: indexPath)
         let taskCell = cell as? TaskCollectionViewCell
+        taskCell?.viewModel = viewModel.getTaskCellViewModel(at: indexPath.item)
         return taskCell ?? UICollectionViewCell()
     }
 }
