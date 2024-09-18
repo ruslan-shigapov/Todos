@@ -1,5 +1,5 @@
 //
-//  SortTasksButton.swift
+//  FilterTasksButton.swift
 //  Todos
 //
 //  Created by Ruslan Shigapov on 16.09.2024.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-enum SortTasksButtonSelection: String {
+enum FilterTasksButtonSelection: String {
     case all, open, closed
 }
 
-final class SortTasksButton: UIButton {
+final class FilterTasksButton: UIButton {
 
     // MARK: Views
     private lazy var selectionNameLabel: UILabel = {
@@ -21,7 +21,7 @@ final class SortTasksButton: UIButton {
         return label
     }()
     
-    private let sortedTasksCountLabel: UILabel = {
+    private let filteredTasksCountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 12, weight: .medium)
@@ -32,7 +32,7 @@ final class SortTasksButton: UIButton {
     
     private lazy var roundedView: UIView = {
         let view = UIView()
-        view.addSubview(sortedTasksCountLabel)
+        view.addSubview(filteredTasksCountLabel)
         view.layer.cornerRadius = 10
         return view
     }()
@@ -47,7 +47,7 @@ final class SortTasksButton: UIButton {
     }()
     
     // MARK: Public Properties
-    let selection: SortTasksButtonSelection
+    let selection: FilterTasksButtonSelection
     
     override var isSelected: Bool {
         didSet {
@@ -62,7 +62,7 @@ final class SortTasksButton: UIButton {
     }
         
     // MARK: Initialize
-    init(selection: SortTasksButtonSelection) {
+    init(selection: FilterTasksButtonSelection) {
         self.selection = selection
         super.init(frame: .zero)
         setupUI()
@@ -81,13 +81,13 @@ final class SortTasksButton: UIButton {
     }
     
     // MARK: Public Methods
-    func configure(withSortedTasksCount tasksCount: Int) {
-        sortedTasksCountLabel.text = "\(tasksCount)"
+    func configure(withFilteredTasksCount tasksCount: Int) {
+        filteredTasksCountLabel.text = "\(tasksCount)"
     }
 }
 
 // MARK: - Layout
-private extension SortTasksButton {
+private extension FilterTasksButton {
     
     func setConstraints() {
         NSLayoutConstraint.activate([
@@ -100,9 +100,9 @@ private extension SortTasksButton {
             roundedView.heightAnchor.constraint(equalToConstant: 20),
             roundedView.widthAnchor.constraint(equalToConstant: 25),
             
-            sortedTasksCountLabel.centerXAnchor.constraint(
+            filteredTasksCountLabel.centerXAnchor.constraint(
                 equalTo: roundedView.centerXAnchor),
-            sortedTasksCountLabel.centerYAnchor.constraint(
+            filteredTasksCountLabel.centerYAnchor.constraint(
                 equalTo: roundedView.centerYAnchor)
         ])
     }

@@ -22,7 +22,7 @@
 		E45518F92C98383B005DBD9B /* TodosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45518F82C98383B005DBD9B /* TodosTests.swift */; };
 		E4F711552C9839E3000CC916 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F711542C9839E3000CC916 /* StorageManager.swift */; };
 		E4F711572C983DD3000CC916 /* TitleStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F711562C983DD3000CC916 /* TitleStackView.swift */; };
-		E4F7115B2C9864B3000CC916 /* SortTasksButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F7115A2C9864B3000CC916 /* SortTasksButton.swift */; };
+		E4F7115B2C9864B3000CC916 /* FilterTasksButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F7115A2C9864B3000CC916 /* FilterTasksButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +54,7 @@
 		E45518F82C98383B005DBD9B /* TodosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosTests.swift; sourceTree = "<group>"; };
 		E4F711542C9839E3000CC916 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		E4F711562C983DD3000CC916 /* TitleStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleStackView.swift; sourceTree = "<group>"; };
-		E4F7115A2C9864B3000CC916 /* SortTasksButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTasksButton.swift; sourceTree = "<group>"; };
+		E4F7115A2C9864B3000CC916 /* FilterTasksButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTasksButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,7 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				E4F711562C983DD3000CC916 /* TitleStackView.swift */,
-				E4F7115A2C9864B3000CC916 /* SortTasksButton.swift */,
+				E4F7115A2C9864B3000CC916 /* FilterTasksButton.swift */,
 				E4383E582C999FB10093B7FA /* TaskCollectionViewCell.swift */,
 				E4383E562C999DAE0093B7FA /* TaskListCollectionView.swift */,
 				E45518E22C98383A005DBD9B /* TodosViewController.swift */,
@@ -279,7 +279,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4F7115B2C9864B3000CC916 /* SortTasksButton.swift in Sources */,
+				E4F7115B2C9864B3000CC916 /* FilterTasksButton.swift in Sources */,
 				E45518E32C98383A005DBD9B /* TodosViewController.swift in Sources */,
 				E45518DF2C98383A005DBD9B /* AppDelegate.swift in Sources */,
 				E42A0EE52C9ADBF800477D00 /* NetworkManager.swift in Sources */,

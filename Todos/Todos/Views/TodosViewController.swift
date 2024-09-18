@@ -26,14 +26,14 @@ final class TodosViewController: UIViewController {
         return button
     }()
     
-    private let sortTasksButtons = [
-        SortTasksButton(selection: .all),
-        SortTasksButton(selection: .open),
-        SortTasksButton(selection: .closed)
+    private let filterTasksButtons = [
+        FilterTasksButton(selection: .all),
+        FilterTasksButton(selection: .open),
+        FilterTasksButton(selection: .closed)
     ]
     
     private lazy var selectionStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: sortTasksButtons)
+        let stackView = UIStackView(arrangedSubviews: filterTasksButtons)
         let dividerView = UIView()
         dividerView.widthAnchor.constraint(equalToConstant: 3).isActive = true
         dividerView.heightAnchor.constraint(equalToConstant: 20).isActive = true
@@ -89,10 +89,10 @@ final class TodosViewController: UIViewController {
     }
     
     private func addTargets() {
-        sortTasksButtons.forEach {
+        filterTasksButtons.forEach {
             $0.addTarget(
                 self,
-                action: #selector(sortTasksButtonTapped),
+                action: #selector(filterTasksButtonTapped),
                 for: .touchUpInside)
         }
     }
@@ -105,13 +105,13 @@ final class TodosViewController: UIViewController {
         viewModel.fetchTasks { [weak self] in
             guard let self else { return }
             taskListCollectionView.reloadData()
-            sortTasksButtons.forEach {
+            filterTasksButtons.forEach {
                 let tasksCount = switch $0.selection {
-                case .all: self.viewModel.getNumberOfItems()
+                case .all: self.viewModel.getNumberOfAllTasks()
                 case .open: self.viewModel.getNumberOfOpenTasks()
                 case .closed: self.viewModel.getNumberOfClosedTasks()
                 }
-                $0.configure(withSortedTasksCount: tasksCount)
+                $0.configure(withFilteredTasksCount: tasksCount)
             }
             loadingIndicator.stopAnimating()
         } errorHandler: { [weak self] in
@@ -144,17 +144,14 @@ final class TodosViewController: UIViewController {
         
     }
     
-    @objc private func sortTasksButtonTapped(_ sender: UIButton) {
-        // TODO: setup sorting 
-        sortTasksButtons.forEach { $0.isSelected = false }
+    @objc private func filterTasksButtonTapped(_ sender: UIButton) {
+        filterTasksButtons.forEach { $0.isSelected = false }
         sender.isSelected = true
-        if let sortTasksButton = sender as? SortTasksButton {
-            switch sortTasksButton.selection {
-            case .open: print("show only open tasks")
-            case .closed: print("show only closed tasks")
-            default: print("show all tasks")
-            }
+        if let filterTasksButton = sender as? FilterTasksButton {
+            viewModel.applyFilter(bySelection: filterTasksButton.selection)
         }
+        taskListCollectionView.reloadData()
+        taskListCollectionView.setContentOffset(.zero, animated: true)
     }
 }
 
