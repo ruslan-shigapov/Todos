@@ -8,8 +8,11 @@
 import UIKit
 
 final class TaskListCollectionView: UICollectionView {
+    
+    private let viewModel: TodosViewModelProtocol
 
     init(viewModel: TodosViewModelProtocol) {
+        self.viewModel = viewModel
         super.init(
             frame: .zero,
             collectionViewLayout: UICollectionViewFlowLayout())
@@ -67,7 +70,7 @@ extension TaskListCollectionView: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        2
+        viewModel.getNumberOfItems()
     }
     
     func collectionView(

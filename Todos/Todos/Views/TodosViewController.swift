@@ -66,6 +66,7 @@ final class TodosViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         addTargets()
+        setupContent()
     }
     
     // MARK: Private Methods
@@ -88,6 +89,22 @@ final class TodosViewController: UIViewController {
                 self,
                 action: #selector(sortTasksButtonTapped),
                 for: .touchUpInside)
+        }
+    }
+    
+    private func setupContent() {
+        // TODO: add indicator
+        viewModel.fetchTasks { [weak self] in
+            guard let self else { return }
+            taskListCollectionView.reloadData()
+            sortTasksButtons.forEach {
+                let tasksCount = switch $0.selection {
+                case .all: self.viewModel.getNumberOfItems()
+                case .open: self.viewModel.getNumberOfOpenTasks()
+                case .closed: self.viewModel.getNumberOfClosedTasks()
+                }
+                $0.configure(withSortedTasksCount: tasksCount)
+            }
         }
     }
 

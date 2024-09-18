@@ -26,7 +26,7 @@ final class SortTasksButton: UIButton {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textColor = .background
-        label.text = "35" // TODO: calculate sorted tasks count 
+        label.text = Constants.zero
         return label
     }()
     
@@ -79,6 +79,11 @@ final class SortTasksButton: UIButton {
         addSubview(containerStackView)
         setConstraints()
     }
+    
+    // MARK: Public Methods
+    func configure(withSortedTasksCount tasksCount: Int) {
+        sortedTasksCountLabel.text = "\(tasksCount)"
+    }
 }
 
 // MARK: - Layout
@@ -93,13 +98,10 @@ private extension SortTasksButton {
             containerStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             roundedView.heightAnchor.constraint(equalToConstant: 20),
+            roundedView.widthAnchor.constraint(equalToConstant: 25),
             
-            sortedTasksCountLabel.leadingAnchor.constraint(
-                equalTo: roundedView.leadingAnchor,
-                constant: 5),
-            sortedTasksCountLabel.trailingAnchor.constraint(
-                equalTo: roundedView.trailingAnchor,
-                constant: -5),
+            sortedTasksCountLabel.centerXAnchor.constraint(
+                equalTo: roundedView.centerXAnchor),
             sortedTasksCountLabel.centerYAnchor.constraint(
                 equalTo: roundedView.centerYAnchor)
         ])

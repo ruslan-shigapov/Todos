@@ -1,9 +1,13 @@
 //
-//  Task.swift
+//  Tasks.swift
 //  Todos
 //
 //  Created by Ruslan Shigapov on 18.09.2024.
 //
+
+struct Tasks: Decodable {
+    var todos: [Task]
+}
 
 struct Task: Decodable {
     var todo: String
