@@ -67,7 +67,7 @@ extension TaskListCollectionView: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        1
+        2
     }
     
     func collectionView(

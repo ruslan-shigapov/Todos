@@ -12,22 +12,53 @@ enum TitleStackViewPlacement {
 }
 
 final class TitleStackView: UIStackView {
+    
+    // MARK: Private Properties
+    private let titleText: String
+    
+    private var shouldTitleBeCrossedOut: Bool {
+        didSet {
+            if shouldTitleBeCrossedOut {
+                let strikethroughText = NSAttributedString(
+                    string: titleLabel.text ?? "",
+                    attributes: [
+                        .strikethroughStyle : NSUnderlineStyle.single.rawValue,
+                        .strikethroughColor : UIColor.gray
+                    ])
+                titleLabel.attributedText = strikethroughText
+            } else {
+                titleLabel.attributedText = nil
+                titleLabel.text = titleText
+            }
+        }
+    }
 
-    private let titleLabel: UILabel = {
+    // MARK: Views
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
+        label.text = titleText
         label.textColor = .black
         return label
     }()
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .gray
+        label.textColor = .lightGray
         return label
     }()
     
-    init(placement: TitleStackViewPlacement) {
+    // MARK: Initialize
+    init(
+        placement: TitleStackViewPlacement,
+        titleText: String,
+        descriptionText: String,
+        shouldTitleBeCrossedOut: Bool = false
+    ) {
+        self.titleText = titleText
+        self.shouldTitleBeCrossedOut = shouldTitleBeCrossedOut
         super.init(frame: .zero)
         setupUI()
+        descriptionLabel.text = descriptionText
         setupFonts(for: placement)
     }
     
@@ -36,6 +67,7 @@ final class TitleStackView: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Private Methods
     private func setupUI() {
         addArrangedSubview(titleLabel)
         addArrangedSubview(descriptionLabel)
@@ -44,16 +76,18 @@ final class TitleStackView: UIStackView {
     }
     
     private func setupFonts(for placement: TitleStackViewPlacement) {
-        titleLabel.font = .systemFont(
-            ofSize: placement == .main ? 26 : 21,
-            weight: placement == .main ? .semibold : .medium)
-        descriptionLabel.font = .systemFont(
-            ofSize: placement == .main ? 17 : 15,
-            weight: .medium)
+        switch placement {
+        case .main:
+            titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
+            descriptionLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        case .cell:
+            titleLabel.font = .systemFont(ofSize: 18, weight: .medium)
+            descriptionLabel.font = .systemFont(ofSize: 15, weight: .semibold)
+        }
     }
     
-    func configure(withTitle title: String, description: String) {
-        titleLabel.text = title
-        descriptionLabel.text = description
+    // MARK: Public Methods
+    func toggleTitleStrikethrough() {
+        shouldTitleBeCrossedOut.toggle()
     }
 }

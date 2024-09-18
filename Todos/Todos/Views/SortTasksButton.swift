@@ -16,7 +16,7 @@ final class SortTasksButton: UIButton {
     // MARK: Views
     private lazy var selectionNameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
+        label.font = .systemFont(ofSize: 16, weight: .medium)
         label.text = selection.rawValue.capitalized
         return label
     }()
@@ -24,7 +24,7 @@ final class SortTasksButton: UIButton {
     private let sortedTasksCountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 12, weight: .semibold)
+        label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textColor = .background
         label.text = "35" // TODO: calculate sorted tasks count 
         return label
@@ -55,7 +55,7 @@ final class SortTasksButton: UIButton {
                 selectionNameLabel.textColor = .link
                 roundedView.backgroundColor = .link
             } else {
-                selectionNameLabel.textColor = .gray
+                selectionNameLabel.textColor = .lightGray
                 roundedView.backgroundColor = .lightGray.withAlphaComponent(0.5)
             }
         }

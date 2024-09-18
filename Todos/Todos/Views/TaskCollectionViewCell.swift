@@ -11,7 +11,35 @@ final class TaskCollectionViewCell: UICollectionViewCell {
     
     static var identifier = String(describing: TaskCollectionViewCell.self)
     
-    private let titleStackView = TitleStackView(placement: .cell)
+    // MARK: Views
+    private let titleStackView = TitleStackView(
+        placement: .cell,
+        titleText: "Review with Client",
+        descriptionText: "Product Team",
+        shouldTitleBeCrossedOut: false)
+        
+    private lazy var markTaskButton: UIButton = {
+        let button = UIButton(type: .system)
+        let circleImageName = UIImage(
+            systemName: Constants.circleImageName,
+            withConfiguration: UIImage.SymbolConfiguration(pointSize: 32))
+        button.setImage(
+            circleImageName,
+            for: .normal)
+        let checkmarkImageName = UIImage(
+            systemName: Constants.checkmarkImageName)
+        button.setImage(
+            checkmarkImageName?.withRenderingMode(.alwaysOriginal),
+            for: .selected)
+        button.addTarget(
+            self,
+            action: #selector(markTaskButtonTapped),
+            for: .touchUpInside)
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 2
+        button.layer.masksToBounds = true
+        return button
+    }()
     
     private let dividerView: UIView = {
         let view = UIView()
@@ -19,21 +47,19 @@ final class TaskCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    // TODO: add "checkmark.circle" button
-    
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.text = "Today"
-        label.textColor = .gray
-        label.font = .systemFont(ofSize: 15, weight: .medium)
+        label.textColor = .lightGray
+        label.font = .systemFont(ofSize: 15, weight: .semibold)
         return label
     }()
     
     private let durationLabel: UILabel = {
         let label = UILabel()
         label.text = "01:00 PM - 03:00 PM"
-        label.textColor = .gray.withAlphaComponent(0.5)
-        label.font = .systemFont(ofSize: 15, weight: .medium)
+        label.textColor = .lightGray.withAlphaComponent(0.5)
+        label.font = .systemFont(ofSize: 15, weight: .semibold)
         return label
     }()
     
@@ -44,6 +70,13 @@ final class TaskCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
+    // MARK: Lifecycle
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        markTaskButton.layer.cornerRadius = markTaskButton.frame.height / 2
+    }
+    
+    // MARK: Initialize
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -54,12 +87,13 @@ final class TaskCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Private Methods
     private func setupUI() {
         backgroundColor = .white
         layer.cornerRadius = 16
         setupShadow()
         addSubviews()
-        temp()
+        setupButtonColor()
         setConstraints()
     }
     
@@ -72,17 +106,25 @@ final class TaskCollectionViewCell: UICollectionViewCell {
     
     private func addSubviews() {
         addSubview(titleStackView)
+        addSubview(markTaskButton)
         addSubview(dividerView)
         addSubview(infoStackView)
     }
     
-    func temp() {
-        titleStackView.configure(
-            withTitle: "Review with Client",
-            description: "Product Team")
+    private func setupButtonColor() {
+        markTaskButton.tintColor = markTaskButton.isSelected
+        ? .link
+        : .lightGray.withAlphaComponent(0.5)
+    }
+    
+    @objc private func markTaskButtonTapped(_ sender: UIButton) {
+        titleStackView.toggleTitleStrikethrough()
+        sender.isSelected.toggle()
+        setupButtonColor()
     }
 }
 
+// MARK: - Layout
 private extension TaskCollectionViewCell {
     
     func setConstraints() {
@@ -96,6 +138,12 @@ private extension TaskCollectionViewCell {
             titleStackView.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
                 constant: 24),
+            
+            markTaskButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+            markTaskButton.heightAnchor.constraint(equalToConstant: 32),
+            markTaskButton.widthAnchor.constraint(
+                equalTo: markTaskButton.heightAnchor),
+            markTaskButton.centerYAnchor.constraint(equalTo: titleStackView.centerYAnchor),
             
             dividerView.topAnchor.constraint(
                 equalTo: titleStackView.bottomAnchor,

@@ -13,7 +13,10 @@ final class TodosViewController: UIViewController {
     private let viewModel: TodosViewModelProtocol
     
     // MARK: Views
-    private let titleStackView = TitleStackView(placement: .main)
+    private lazy var titleStackView = TitleStackView(
+        placement: .main,
+        titleText: Constants.mainTitle,
+        descriptionText: viewModel.getCurrentFormattedDate())
     
     private lazy var addNewTaskButton: UIButton = {
         let button = UIButton(configuration: getCustomizedButtonConfiguration())
@@ -69,7 +72,6 @@ final class TodosViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .background
         addSubviews()
-        setupContent()
         setConstraints()
     }
     
@@ -78,12 +80,6 @@ final class TodosViewController: UIViewController {
         view.addSubview(addNewTaskButton)
         view.addSubview(selectionStackView)
         view.addSubview(taskListCollectionView)
-    }
-    
-    private func setupContent() {
-        titleStackView.configure(
-            withTitle: Constants.mainTitle,
-            description: viewModel.getCurrentFormattedDate())
     }
     
     private func addTargets() {
@@ -98,8 +94,8 @@ final class TodosViewController: UIViewController {
     private func getCustomizedButtonConfiguration() -> UIButton.Configuration {
         var buttonConfiguration = UIButton.Configuration.tinted()
         let symbolConfiguration = UIImage.SymbolConfiguration(
-            pointSize: 14,
-            weight: .bold)
+            pointSize: 12,
+            weight: .medium)
         buttonConfiguration.image = UIImage(
             systemName: Constants.plusImageName,
             withConfiguration: symbolConfiguration)
@@ -107,15 +103,17 @@ final class TodosViewController: UIViewController {
         attributedTitle.font = .systemFont(ofSize: 16, weight: .semibold)
         buttonConfiguration.attributedTitle = attributedTitle
         buttonConfiguration.contentInsets = .init(
-            top: 12,
-            leading: 16,
-            bottom: 12,
-            trailing: 16)
-        buttonConfiguration.imagePadding = 8
+            top: 10,
+            leading: 12,
+            bottom: 10,
+            trailing: 12)
+        buttonConfiguration.imagePadding = 6
         return buttonConfiguration
     }
     
-    @objc private func addNewTaskButtonTapped() {}
+    @objc private func addNewTaskButtonTapped() {
+        
+    }
     
     @objc private func sortTasksButtonTapped(_ sender: UIButton) {
         sortTasksButtons.forEach { $0.isSelected = false }

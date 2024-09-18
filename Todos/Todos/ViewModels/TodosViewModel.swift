@@ -18,4 +18,8 @@ final class TodosViewModel: TodosViewModelProtocol {
         dateFormatter.dateFormat = "EEEE, dd MMMM"
         return dateFormatter.string(from: Date())
     }
+    
+    func fetchTasks() {
+        
+    }
 }
