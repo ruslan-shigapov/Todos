@@ -17,19 +17,19 @@ final class TaskCellViewModel: TaskCellViewModelProtocol {
     private let task: Task
     
     var title: String {
-        task.todo
+        task.title ?? Constants.newTask
     }
     
     var description: String {
-        "From Network"
+        task.specification ?? Constants.createdByMe
     }
     
     var isClosed: Bool {
-        task.completed
+        task.closed
     }
     
     var duration: String {
-        "01:00 PM - 03:00 PM"
+        task.duration ?? "" // TODO: "01:00 PM - 03:00 PM" such format
     }
     
     init(task: Task) {

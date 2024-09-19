@@ -22,7 +22,7 @@ final class NetworkManager {
     private init() {}
     
     func fetchTasks(
-        completion: @escaping (Result<[Task], NetworkError>) -> Void
+        completion: @escaping (Result<[TaskResponse], NetworkError>) -> Void
     ) {
         guard let url = URL(string: "https://dummyjson.com/todos") else {
             completion(.failure(.invalidURL))
@@ -43,10 +43,10 @@ final class NetworkManager {
                 return
             }
             do {
-                let tasks = try JSONDecoder().decode(Tasks.self, from: data)
-                DispatchQueue.main.async {
-                    completion(.success(tasks.todos))
-                }
+                let tasks = try JSONDecoder().decode(
+                    TasksResponse.self,
+                    from: data)
+                completion(.success(tasks.todos))
             } catch {
                 completion(.failure(.parsingFailure))
             }

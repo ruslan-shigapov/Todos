@@ -9,11 +9,11 @@ import Foundation
 
 protocol TodosViewModelProtocol {
     func getCurrentFormattedDate() -> String
-    func applyFilter(bySelection selection: FilterTasksButtonSelection)
     func fetchTasks(
         completion: @escaping () -> Void,
         errorHandler: @escaping () -> Void
     )
+    func applyFilter(bySelection selection: FilterTasksButtonSelection)
     func getNumberOfItems() -> Int
     func getNumberOfAllTasks() -> Int
     func getNumberOfClosedTasks() -> Int
@@ -23,8 +23,56 @@ protocol TodosViewModelProtocol {
 
 final class TodosViewModel: TodosViewModelProtocol {
     
+    private var wasDataReceived: Bool {
+        UserDefaults.standard.bool(forKey: "wasDataReceived")
+    }
+    
     private var tasks: [Task] = []
     private var filteredTasks: [Task] = []
+
+    private func fetchTasksFromNetwork(
+        completion: @escaping () -> Void,
+        errorHandler: @escaping () -> Void
+    ) {
+        NetworkManager.shared.fetchTasks { [weak self] result in
+            guard let self else { return }
+            switch result {
+                case .success(let tasksResponse):
+                UserDefaults.standard.set(true, forKey: "wasDataReceived")
+                StorageManager.shared.save(tasksResponse)
+                fetchTasksFromStorage(
+                    completion: completion,
+                    errorHandler: errorHandler)
+            case .failure(let error):
+                print(error)
+                DispatchQueue.main.async {
+                    errorHandler()
+                }
+            }
+        }
+    }
+    
+    private func fetchTasksFromStorage(
+        completion: @escaping () -> Void,
+        errorHandler: @escaping () -> Void
+    ) {
+        StorageManager.shared.fetchTasks { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success(let tasks):
+                self.tasks = tasks
+                self.applyFilter(bySelection: .all)
+                DispatchQueue.main.async {
+                    completion()
+                }
+            case .failure(let error):
+                print(error)
+                DispatchQueue.main.async {
+                    errorHandler()
+                }
+            }
+        }
+    }
     
     func getCurrentFormattedDate() -> String {
         let dateFormatter = DateFormatter()
@@ -32,33 +80,24 @@ final class TodosViewModel: TodosViewModelProtocol {
         return dateFormatter.string(from: Date())
     }
     
-    func applyFilter(bySelection selection: FilterTasksButtonSelection) {
-        switch selection {
-        case .all: filteredTasks = tasks
-        case .open: filteredTasks = tasks.filter { !$0.completed }
-        case .closed: filteredTasks = tasks.filter { $0.completed }
-        }
-    }
-    
     func fetchTasks(
         completion: @escaping () -> Void,
         errorHandler: @escaping () -> Void
     ) {
-        NetworkManager.shared.fetchTasks { [weak self] result in
-            guard let self else { return }
-            switch result {
-                case .success(let tasks):
-                DispatchQueue.main.async {
-                    self.tasks = tasks
-                    self.applyFilter(bySelection: .all)
-                    completion()
-                }
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    print(error)
-                    errorHandler()
-                }
-            }
+        wasDataReceived
+        ? fetchTasksFromStorage(
+            completion: completion,
+            errorHandler: errorHandler)
+        : fetchTasksFromNetwork(
+            completion: completion,
+            errorHandler: errorHandler)
+    }
+    
+    func applyFilter(bySelection selection: FilterTasksButtonSelection) {
+        switch selection {
+        case .all: filteredTasks = tasks
+        case .open: filteredTasks = tasks.filter { !$0.closed }
+        case .closed: filteredTasks = tasks.filter { $0.closed }
         }
     }
     
@@ -71,7 +110,7 @@ final class TodosViewModel: TodosViewModelProtocol {
     }
     
     func getNumberOfClosedTasks() -> Int {
-        tasks.filter { $0.completed }.count
+        tasks.filter { $0.closed }.count
     }
     
     func getNumberOfOpenTasks() -> Int {

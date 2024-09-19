@@ -128,7 +128,7 @@ final class TodosViewController: UIViewController {
         buttonConfiguration.image = UIImage(
             systemName: Constants.plusImageName,
             withConfiguration: symbolConfiguration)
-        var attributedTitle = AttributedString(Constants.addNewTaskButtonTitle)
+        var attributedTitle = AttributedString(Constants.newTask)
         attributedTitle.font = .systemFont(ofSize: 16, weight: .semibold)
         buttonConfiguration.attributedTitle = attributedTitle
         buttonConfiguration.contentInsets = .init(
