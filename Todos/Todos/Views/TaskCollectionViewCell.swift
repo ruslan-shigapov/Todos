@@ -65,7 +65,8 @@ final class TaskCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    weak var viewModel: TaskCellViewModelProtocol? {
+    // MARK: Public Properties 
+    var viewModel: TaskCellViewModelProtocol? {
         didSet {
             guard let viewModel else { return }
             titleStackView.configure(
@@ -74,9 +75,12 @@ final class TaskCollectionViewCell: UICollectionViewCell {
                 shouldTitleBeCrossedOut: viewModel.isClosed)
             durationLabel.text = viewModel.duration
             markTaskButton.isSelected = viewModel.isClosed
+            markTaskButton.setNeedsDisplay()
             setupButtonColor()
         }
     }
+    
+    weak var delegate: TaskCollectionViewCellDelegate?
     
     // MARK: Lifecycle
     override func layoutSubviews() {
@@ -129,6 +133,10 @@ final class TaskCollectionViewCell: UICollectionViewCell {
         titleStackView.toggleTitleStrikethrough()
         markTaskButton.isSelected.toggle()
         setupButtonColor()
+        viewModel?.markTask { [weak self] in
+            guard let self else { return }
+            delegate?.taskWasMarked?()
+        }
     }
 }
 

@@ -5,11 +5,14 @@
 //  Created by Ruslan Shigapov on 18.09.2024.
 //
 
-protocol TaskCellViewModelProtocol: AnyObject {
+import Foundation
+
+protocol TaskCellViewModelProtocol {
     var title: String { get }
     var description: String { get }
     var isClosed: Bool { get }
     var duration: String { get }
+    func markTask(completion: @escaping () -> Void)
 }
 
 final class TaskCellViewModel: TaskCellViewModelProtocol {
@@ -34,5 +37,13 @@ final class TaskCellViewModel: TaskCellViewModelProtocol {
     
     init(task: Task) {
         self.task = task
+    }
+    
+    func markTask(completion: @escaping () -> Void) {
+        StorageManager.shared.update(task) {
+            DispatchQueue.main.async {
+                completion()
+            }
+        }
     }
 }

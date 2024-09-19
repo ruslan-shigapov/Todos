@@ -70,7 +70,9 @@ extension StorageManager {
     }
     
     func update(_ task: Task, completion: @escaping () -> Void) {
-        
+        task.closed.toggle()
+        saveContext()
+        completion()
     }
     
     func delete(_ task: Task, completion: @escaping () -> Void) {

@@ -83,6 +83,7 @@ extension TaskListCollectionView: UICollectionViewDataSource {
             for: indexPath)
         let taskCell = cell as? TaskCollectionViewCell
         taskCell?.viewModel = viewModel.getTaskCellViewModel(at: indexPath.item)
+        taskCell?.delegate = viewModel as TaskCollectionViewCellDelegate
         return taskCell ?? UICollectionViewCell()
     }
 }

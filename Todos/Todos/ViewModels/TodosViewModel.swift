@@ -7,7 +7,11 @@
 
 import Foundation
 
-protocol TodosViewModelProtocol {
+protocol TaskCollectionViewCellDelegate: AnyObject {
+    var taskWasMarked: (() -> Void)? { get set }
+}
+
+protocol TodosViewModelProtocol: TaskCollectionViewCellDelegate {
     func getCurrentFormattedDate() -> String
     func fetchTasks(
         completion: @escaping () -> Void,
@@ -28,8 +32,14 @@ final class TodosViewModel: TodosViewModelProtocol {
     }
     
     private var tasks: [Task] = []
-    private var filteredTasks: [Task] = []
+    private var filteredTasks: [Task] = [] {
+        didSet {
+            // TODO: setup sorting ?
+        }
+    }
 
+    var taskWasMarked: (() -> Void)?
+    
     private func fetchTasksFromNetwork(
         completion: @escaping () -> Void,
         errorHandler: @escaping () -> Void

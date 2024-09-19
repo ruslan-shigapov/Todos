@@ -70,6 +70,7 @@ final class TodosViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         addTargets()
+        handleEvents()
         setupContent()
     }
     
@@ -97,6 +98,21 @@ final class TodosViewController: UIViewController {
         }
     }
     
+    private func handleEvents() {
+        viewModel.taskWasMarked = { [weak self] in
+            guard let self else { return }
+            setupFilterTasksButtons()
+            filterTasksButtons.forEach {
+                if $0.isSelected, $0.selection != .all {
+                    self.viewModel.applyFilter(bySelection: $0.selection)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                        self.taskListCollectionView.reloadData()
+                    }
+                }
+            }
+        }
+    }
+    
     private func setupContent() {
         titleStackView.configure(
             withTitle: Constants.mainTitle,
@@ -105,18 +121,22 @@ final class TodosViewController: UIViewController {
         viewModel.fetchTasks { [weak self] in
             guard let self else { return }
             taskListCollectionView.reloadData()
-            filterTasksButtons.forEach {
-                let tasksCount = switch $0.selection {
-                case .all: self.viewModel.getNumberOfAllTasks()
-                case .open: self.viewModel.getNumberOfOpenTasks()
-                case .closed: self.viewModel.getNumberOfClosedTasks()
-                }
-                $0.configure(withFilteredTasksCount: tasksCount)
-            }
+            setupFilterTasksButtons()
             loadingIndicator.stopAnimating()
         } errorHandler: { [weak self] in
             guard let self else { return }
             loadingIndicator.stopAnimating()
+        }
+    }
+    
+    private func setupFilterTasksButtons() {
+        filterTasksButtons.forEach {
+            let tasksCount = switch $0.selection {
+            case .all: self.viewModel.getNumberOfAllTasks()
+            case .open: self.viewModel.getNumberOfOpenTasks()
+            case .closed: self.viewModel.getNumberOfClosedTasks()
+            }
+            $0.configure(withFilteredTasksCount: tasksCount)
         }
     }
 
