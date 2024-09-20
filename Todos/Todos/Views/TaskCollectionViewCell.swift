@@ -75,7 +75,6 @@ final class TaskCollectionViewCell: UICollectionViewCell {
                 shouldTitleBeCrossedOut: viewModel.isClosed)
             durationLabel.text = viewModel.duration
             markTaskButton.isSelected = viewModel.isClosed
-            markTaskButton.setNeedsDisplay()
             setupButtonColor()
         }
     }

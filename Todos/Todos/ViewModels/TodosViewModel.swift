@@ -10,7 +10,6 @@ import Foundation
 protocol TaskCollectionViewCellDelegate: AnyObject {
     var taskWasMarked: (() -> Void)? { get set }
 }
-
 protocol TodosViewModelProtocol: TaskCollectionViewCellDelegate {
     func getCurrentFormattedDate() -> String
     func fetchTasks(
@@ -23,6 +22,8 @@ protocol TodosViewModelProtocol: TaskCollectionViewCellDelegate {
     func getNumberOfClosedTasks() -> Int
     func getNumberOfOpenTasks() -> Int
     func getTaskCellViewModel(at index: Int) -> TaskCellViewModelProtocol
+    func getEditorViewModel() -> EditorViewModelProtocol
+    func getEditorViewModel(at index: Int) -> EditorViewModelProtocol
 }
 
 final class TodosViewModel: TodosViewModelProtocol {
@@ -129,5 +130,13 @@ final class TodosViewModel: TodosViewModelProtocol {
     
     func getTaskCellViewModel(at index: Int) -> TaskCellViewModelProtocol {
         TaskCellViewModel(task: filteredTasks[index])
+    }
+    
+    func getEditorViewModel() -> EditorViewModelProtocol {
+        EditorViewModel(task: nil)
+    }
+    
+    func getEditorViewModel(at index: Int) -> EditorViewModelProtocol {
+        EditorViewModel(task: filteredTasks[index])
     }
 }

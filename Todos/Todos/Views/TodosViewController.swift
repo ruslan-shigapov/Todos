@@ -44,8 +44,18 @@ final class TodosViewController: UIViewController {
         return stackView
     }()
     
-    private lazy var taskListCollectionView = TaskListCollectionView(
-        viewModel: viewModel)
+    private lazy var taskListCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.backgroundColor = .clear
+        collectionView.register(
+            TaskCollectionViewCell.self,
+            forCellWithReuseIdentifier: TaskCollectionViewCell.identifier)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        return collectionView
+    }()
     
     private let loadingIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
@@ -161,7 +171,9 @@ final class TodosViewController: UIViewController {
     }
     
     @objc private func addNewTaskButtonTapped() {
-        
+        let editorVC = ScreenFactory.getEditorViewController(
+            viewModel: viewModel.getEditorViewModel())
+        present(editorVC, animated: true)
     }
     
     @objc private func filterTasksButtonTapped(_ sender: UIButton) {
@@ -175,10 +187,72 @@ final class TodosViewController: UIViewController {
     }
 }
 
-// MARK: - Layout
-private extension TodosViewController {
+// MARK: - UICollectionViewDelegateFlowLayout
+extension TodosViewController: UICollectionViewDelegateFlowLayout {
     
-    func setConstraints() {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        CGSize(width: collectionView.bounds.width - 48, height: 140)
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int
+    ) -> UIEdgeInsets {
+        UIEdgeInsets(top: 20, left: 0, bottom: 12, right: 0)
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        20
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        let editorVC = ScreenFactory.getEditorViewController(
+            viewModel: viewModel.getEditorViewModel(at: indexPath.item))
+        present(editorVC, animated: true)
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+extension TodosViewController: UICollectionViewDataSource {
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        viewModel.getNumberOfItems()
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: String(
+                describing: TaskCollectionViewCell.identifier),
+            for: indexPath)
+        let taskCell = cell as? TaskCollectionViewCell
+        taskCell?.viewModel = viewModel.getTaskCellViewModel(at: indexPath.item)
+        taskCell?.delegate = viewModel as TaskCollectionViewCellDelegate
+        return taskCell ?? UICollectionViewCell()
+    }
+}
+
+// MARK: - Layout
+extension TodosViewController {
+    
+    private func setConstraints() {
         view.subviews.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }

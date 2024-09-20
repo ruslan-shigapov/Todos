@@ -13,13 +13,14 @@
 		E4383E502C99857F0093B7FA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4383E4F2C99857F0093B7FA /* Constants.swift */; };
 		E4383E532C9993AF0093B7FA /* TodosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4383E522C9993AF0093B7FA /* TodosViewModel.swift */; };
 		E4383E552C99947F0093B7FA /* ScreenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4383E542C99947F0093B7FA /* ScreenFactory.swift */; };
-		E4383E572C999DAE0093B7FA /* TaskListCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4383E562C999DAE0093B7FA /* TaskListCollectionView.swift */; };
 		E4383E592C999FB10093B7FA /* TaskCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4383E582C999FB10093B7FA /* TaskCollectionViewCell.swift */; };
 		E45518DF2C98383A005DBD9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45518DE2C98383A005DBD9B /* AppDelegate.swift */; };
 		E45518E32C98383A005DBD9B /* TodosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45518E22C98383A005DBD9B /* TodosViewController.swift */; };
 		E45518E92C98383A005DBD9B /* Todos.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E45518E72C98383A005DBD9B /* Todos.xcdatamodeld */; };
 		E45518EB2C98383B005DBD9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E45518EA2C98383B005DBD9B /* Assets.xcassets */; };
 		E45518F92C98383B005DBD9B /* TodosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45518F82C98383B005DBD9B /* TodosTests.swift */; };
+		E47829F72C9CE21C0002241A /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47829F62C9CE21C0002241A /* EditorViewController.swift */; };
+		E47829F92C9CE7550002241A /* EditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47829F82C9CE7550002241A /* EditorViewModel.swift */; };
 		E4F711552C9839E3000CC916 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F711542C9839E3000CC916 /* StorageManager.swift */; };
 		E4F711572C983DD3000CC916 /* TitleStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F711562C983DD3000CC916 /* TitleStackView.swift */; };
 		E4F7115B2C9864B3000CC916 /* FilterTasksButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F7115A2C9864B3000CC916 /* FilterTasksButton.swift */; };
@@ -42,7 +43,6 @@
 		E4383E4F2C99857F0093B7FA /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E4383E522C9993AF0093B7FA /* TodosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosViewModel.swift; sourceTree = "<group>"; };
 		E4383E542C99947F0093B7FA /* ScreenFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenFactory.swift; sourceTree = "<group>"; };
-		E4383E562C999DAE0093B7FA /* TaskListCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCollectionView.swift; sourceTree = "<group>"; };
 		E4383E582C999FB10093B7FA /* TaskCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCollectionViewCell.swift; sourceTree = "<group>"; };
 		E45518DB2C98383A005DBD9B /* Todos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E45518DE2C98383A005DBD9B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -52,6 +52,8 @@
 		E45518EF2C98383B005DBD9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E45518F42C98383B005DBD9B /* TodosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E45518F82C98383B005DBD9B /* TodosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosTests.swift; sourceTree = "<group>"; };
+		E47829F62C9CE21C0002241A /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
+		E47829F82C9CE7550002241A /* EditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
 		E4F711542C9839E3000CC916 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		E4F711562C983DD3000CC916 /* TitleStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleStackView.swift; sourceTree = "<group>"; };
 		E4F7115A2C9864B3000CC916 /* FilterTasksButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTasksButton.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 			children = (
 				E4383E522C9993AF0093B7FA /* TodosViewModel.swift */,
 				E42A0EE62C9AF7AA00477D00 /* TaskCellViewModel.swift */,
+				E47829F82C9CE7550002241A /* EditorViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -165,8 +168,8 @@
 				E4F711562C983DD3000CC916 /* TitleStackView.swift */,
 				E4F7115A2C9864B3000CC916 /* FilterTasksButton.swift */,
 				E4383E582C999FB10093B7FA /* TaskCollectionViewCell.swift */,
-				E4383E562C999DAE0093B7FA /* TaskListCollectionView.swift */,
 				E45518E22C98383A005DBD9B /* TodosViewController.swift */,
+				E47829F62C9CE21C0002241A /* EditorViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 				E4F7115B2C9864B3000CC916 /* FilterTasksButton.swift in Sources */,
 				E45518E32C98383A005DBD9B /* TodosViewController.swift in Sources */,
 				E45518DF2C98383A005DBD9B /* AppDelegate.swift in Sources */,
+				E47829F92C9CE7550002241A /* EditorViewModel.swift in Sources */,
 				E42A0EE52C9ADBF800477D00 /* NetworkManager.swift in Sources */,
 				E4F711572C983DD3000CC916 /* TitleStackView.swift in Sources */,
 				E42A0EE32C9ADAD300477D00 /* TasksResponse.swift in Sources */,
@@ -292,7 +296,7 @@
 				E4F711552C9839E3000CC916 /* StorageManager.swift in Sources */,
 				E4383E552C99947F0093B7FA /* ScreenFactory.swift in Sources */,
 				E4383E592C999FB10093B7FA /* TaskCollectionViewCell.swift in Sources */,
-				E4383E572C999DAE0093B7FA /* TaskListCollectionView.swift in Sources */,
+				E47829F72C9CE21C0002241A /* EditorViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

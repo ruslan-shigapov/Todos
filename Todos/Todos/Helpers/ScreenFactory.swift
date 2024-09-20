@@ -11,4 +11,10 @@ struct ScreenFactory {
         let viewModel = TodosViewModel()
         return TodosViewController(viewModel: viewModel)
     }
+    
+    static func getEditorViewController(
+        viewModel: EditorViewModelProtocol
+    ) -> EditorViewController {
+        EditorViewController(viewModel: viewModel)
+    }
 }
