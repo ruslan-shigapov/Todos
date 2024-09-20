@@ -57,6 +57,24 @@ extension StorageManager {
         saveContext()
     }
     
+    func createTask(
+        title: String,
+        specification: String,
+        duration: String,
+        completion: @escaping (Task) -> Void
+    ) {
+        let task = Task(context: viewContext)
+        task.title = title
+        task.specification = specification
+        task.closed = false
+        task.duration = duration
+        saveContext()
+        // TODO: check threads
+        DispatchQueue.main.async {
+            completion(task)
+        }
+    }
+    
     func fetchTasks(
         completion: @escaping (Result<[Task], StorageError>) -> Void
     ) {

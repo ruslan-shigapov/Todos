@@ -88,6 +88,7 @@ final class TodosViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .background
         addSubviews()
+        view.prepareForAutoLayout()
         setConstraints()
     }
     
@@ -182,8 +183,8 @@ final class TodosViewController: UIViewController {
         if let filterTasksButton = sender as? FilterTasksButton {
             viewModel.applyFilter(bySelection: filterTasksButton.selection)
         }
-        taskListCollectionView.reloadData()
         taskListCollectionView.setContentOffset(.zero, animated: true)
+        taskListCollectionView.reloadData()
     }
 }
 
@@ -253,9 +254,6 @@ extension TodosViewController: UICollectionViewDataSource {
 extension TodosViewController {
     
     private func setConstraints() {
-        view.subviews.forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
         NSLayoutConstraint.activate([
             titleStackView.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor),

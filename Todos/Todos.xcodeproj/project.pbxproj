@@ -21,6 +21,8 @@
 		E45518F92C98383B005DBD9B /* TodosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45518F82C98383B005DBD9B /* TodosTests.swift */; };
 		E47829F72C9CE21C0002241A /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47829F62C9CE21C0002241A /* EditorViewController.swift */; };
 		E47829F92C9CE7550002241A /* EditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47829F82C9CE7550002241A /* EditorViewModel.swift */; };
+		E4CB69892C9D862D00774326 /* UIView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CB69882C9D862D00774326 /* UIView+extension.swift */; };
+		E4CB698B2C9D8B4500774326 /* RoundedBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CB698A2C9D8B4500774326 /* RoundedBackView.swift */; };
 		E4F711552C9839E3000CC916 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F711542C9839E3000CC916 /* StorageManager.swift */; };
 		E4F711572C983DD3000CC916 /* TitleStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F711562C983DD3000CC916 /* TitleStackView.swift */; };
 		E4F7115B2C9864B3000CC916 /* FilterTasksButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F7115A2C9864B3000CC916 /* FilterTasksButton.swift */; };
@@ -54,6 +56,8 @@
 		E45518F82C98383B005DBD9B /* TodosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosTests.swift; sourceTree = "<group>"; };
 		E47829F62C9CE21C0002241A /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		E47829F82C9CE7550002241A /* EditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
+		E4CB69882C9D862D00774326 /* UIView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+extension.swift"; sourceTree = "<group>"; };
+		E4CB698A2C9D8B4500774326 /* RoundedBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedBackView.swift; sourceTree = "<group>"; };
 		E4F711542C9839E3000CC916 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		E4F711562C983DD3000CC916 /* TitleStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleStackView.swift; sourceTree = "<group>"; };
 		E4F7115A2C9864B3000CC916 /* FilterTasksButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTasksButton.swift; sourceTree = "<group>"; };
@@ -82,6 +86,7 @@
 			children = (
 				E4383E542C99947F0093B7FA /* ScreenFactory.swift */,
 				E4383E4F2C99857F0093B7FA /* Constants.swift */,
+				E4CB69882C9D862D00774326 /* UIView+extension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -136,6 +141,24 @@
 			path = TodosTests;
 			sourceTree = "<group>";
 		};
+		E47829FA2C9CF6660002241A /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E4F711562C983DD3000CC916 /* TitleStackView.swift */,
+				E4F7115A2C9864B3000CC916 /* FilterTasksButton.swift */,
+				E4CB698A2C9D8B4500774326 /* RoundedBackView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		E47829FB2C9CF6790002241A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				E4383E582C999FB10093B7FA /* TaskCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		E4F7114F2C983888000CC916 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,9 +188,8 @@
 		E4F711522C9838D9000CC916 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E4F711562C983DD3000CC916 /* TitleStackView.swift */,
-				E4F7115A2C9864B3000CC916 /* FilterTasksButton.swift */,
-				E4383E582C999FB10093B7FA /* TaskCollectionViewCell.swift */,
+				E47829FA2C9CF6660002241A /* Components */,
+				E47829FB2C9CF6790002241A /* Cells */,
 				E45518E22C98383A005DBD9B /* TodosViewController.swift */,
 				E47829F62C9CE21C0002241A /* EditorViewController.swift */,
 			);
@@ -284,11 +306,13 @@
 			files = (
 				E4F7115B2C9864B3000CC916 /* FilterTasksButton.swift in Sources */,
 				E45518E32C98383A005DBD9B /* TodosViewController.swift in Sources */,
+				E4CB69892C9D862D00774326 /* UIView+extension.swift in Sources */,
 				E45518DF2C98383A005DBD9B /* AppDelegate.swift in Sources */,
 				E47829F92C9CE7550002241A /* EditorViewModel.swift in Sources */,
 				E42A0EE52C9ADBF800477D00 /* NetworkManager.swift in Sources */,
 				E4F711572C983DD3000CC916 /* TitleStackView.swift in Sources */,
 				E42A0EE32C9ADAD300477D00 /* TasksResponse.swift in Sources */,
+				E4CB698B2C9D8B4500774326 /* RoundedBackView.swift in Sources */,
 				E4383E502C99857F0093B7FA /* Constants.swift in Sources */,
 				E42A0EE72C9AF7AA00477D00 /* TaskCellViewModel.swift in Sources */,
 				E4383E532C9993AF0093B7FA /* TodosViewModel.swift in Sources */,

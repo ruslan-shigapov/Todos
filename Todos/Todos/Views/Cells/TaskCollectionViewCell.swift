@@ -15,15 +15,17 @@ final class TaskCollectionViewCell: UICollectionViewCell {
     private lazy var titleStackView = TitleStackView(placement: .cell)
         
     private lazy var markTaskButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton()
+        let symbolConfiguration = UIImage.SymbolConfiguration(pointSize: 32)
         let circleImageName = UIImage(
             systemName: Constants.circleImageName,
-            withConfiguration: UIImage.SymbolConfiguration(pointSize: 32))
+            withConfiguration: symbolConfiguration)
         button.setImage(
             circleImageName,
             for: .normal)
         let checkmarkImageName = UIImage(
-            systemName: Constants.checkmarkImageName)
+            systemName: Constants.checkmarkImageName,
+            withConfiguration: symbolConfiguration)
         button.setImage(
             checkmarkImageName?.withRenderingMode(.alwaysOriginal),
             for: .selected)
@@ -31,9 +33,6 @@ final class TaskCollectionViewCell: UICollectionViewCell {
             self,
             action: #selector(markTaskButtonTapped),
             for: .touchUpInside)
-        button.layer.borderColor = UIColor.white.cgColor
-        button.layer.borderWidth = 2
-        button.layer.masksToBounds = true
         return button
     }()
     
@@ -106,13 +105,6 @@ final class TaskCollectionViewCell: UICollectionViewCell {
         addSubviews()
         setupButtonColor()
         setConstraints()
-    }
-    
-    private func setupShadow() {
-        layer.shadowColor = UIColor.gray.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 1)
-        layer.shadowOpacity = 0.2
-        layer.shadowRadius = 3
     }
     
     private func addSubviews() {

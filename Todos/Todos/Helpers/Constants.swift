@@ -15,4 +15,5 @@ enum Constants {
     static let today = "Today"
     static let fromNetwork = "From Network"
     static let createdByMe = "Created by Me"
+    static let editTask = "Edit Task"
 }
