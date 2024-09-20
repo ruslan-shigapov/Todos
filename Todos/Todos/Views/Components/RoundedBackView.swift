@@ -8,10 +8,12 @@
 import UIKit
 
 final class RoundedBackView: UIView {
+    
+    private let subview: UIView
 
     init(subview: UIView) {
+        self.subview = subview
         super.init(frame: .zero)
-        addSubview(subview)
         setupUI()
     }
     
@@ -23,6 +25,7 @@ final class RoundedBackView: UIView {
     private func setupUI() {
         backgroundColor = .white
         layer.cornerRadius = 16
+        addSubview(subview)
         setupShadow()
         prepareForAutoLayout()
         setConstraints()
@@ -30,7 +33,16 @@ final class RoundedBackView: UIView {
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            
+            subview.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            subview.leadingAnchor.constraint(
+                equalTo: leadingAnchor,
+                constant: 24),
+            subview.bottomAnchor.constraint(
+                equalTo: bottomAnchor,
+                constant: -8),
+            subview.trailingAnchor.constraint(
+                equalTo: trailingAnchor,
+                constant: -24)
         ])
     }
 }

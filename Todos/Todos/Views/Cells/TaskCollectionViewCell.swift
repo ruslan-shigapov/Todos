@@ -36,11 +36,7 @@ final class TaskCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
-    private let dividerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .lightGray.withAlphaComponent(0.2)
-        return view
-    }()
+    private let dividerView = DividerView()
     
     private let todayLabel: UILabel = {
         let label = UILabel()
@@ -164,7 +160,6 @@ private extension TaskCollectionViewCell {
             dividerView.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
                 constant: -24),
-            dividerView.heightAnchor.constraint(equalToConstant: 2),
             
             infoStackView.topAnchor.constraint(
                 equalTo: dividerView.bottomAnchor,

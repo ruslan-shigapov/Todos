@@ -13,20 +13,40 @@ final class EditorViewController: UIViewController {
     private let viewModel: EditorViewModelProtocol
     
     // MARK: Views
+    private lazy var titleTextField = CustomTextField(type: .title, tag: 1)
+    private let descriptionTextField = CustomTextField(
+        type: .description,
+        tag: 2)
+    
     private lazy var textFieldStackView: UIStackView = {
-        let stackView = UIStackView()
+        let dividerView = DividerView()
+        let stackView = UIStackView(
+            arrangedSubviews: [
+                titleTextField,
+                dividerView,
+                descriptionTextField
+            ])
         stackView.axis = .vertical
-        stackView.spacing = 16
+        stackView.spacing = 8
         return stackView
     }()
     
     private lazy var textFieldBackView = RoundedBackView(
         subview: textFieldStackView)
     
+    private let startTimeStackView = TimeStackView(type: .start)
+    private let endTimeStackView = TimeStackView(type: .end)
+    
     private lazy var durationStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 16
+        let dividerView = DividerView()
+        let stackView = UIStackView(
+            arrangedSubviews: [
+                startTimeStackView,
+                dividerView,
+                endTimeStackView
+            ])
+        stackView.axis = .vertical
+        stackView.spacing = 8
         return stackView
     }()
     
@@ -48,6 +68,7 @@ final class EditorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        addDismissTapRecognizer()
     }
     
     // MARK: Private Methods
@@ -74,6 +95,17 @@ final class EditorViewController: UIViewController {
             target: self,
             action: nil)
     }
+    
+    private func addDismissTapRecognizer() {
+        let tapRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapRecognizer)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
 // MARK: - Layout
@@ -90,8 +122,6 @@ private extension EditorViewController {
             textFieldBackView.trailingAnchor.constraint(
                 equalTo: view.trailingAnchor,
                 constant: -24),
-            textFieldBackView.heightAnchor.constraint(
-                equalToConstant: 100),
             
             durationBackView.topAnchor.constraint(
                 equalTo: textFieldBackView.bottomAnchor,
@@ -101,9 +131,7 @@ private extension EditorViewController {
                 constant: 24),
             durationBackView.trailingAnchor.constraint(
                 equalTo: view.trailingAnchor,
-                constant: -24),
-            durationBackView.heightAnchor.constraint(
-                equalToConstant: 150),
+                constant: -24)
         ])
     }
 }
