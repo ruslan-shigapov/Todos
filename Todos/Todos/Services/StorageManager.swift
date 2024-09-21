@@ -46,54 +46,95 @@ final class StorageManager {
 // MARK: - Task CRUD
 extension StorageManager {
     
-    func save(_ tasks: [TaskResponse]) {
+    func saveTasks(_ tasks: [TaskResponse]) {
         tasks.forEach {
             let task = Task(context: viewContext)
+            task.id = Int16($0.id)
             task.title = $0.todo
             task.specification = Constants.fromNetwork
-            task.closed = $0.completed
+            task.isClosed = $0.completed
             task.duration = ""
         }
         saveContext()
     }
     
     func createTask(
-        title: String,
-        specification: String,
-        duration: String,
-        completion: @escaping (Task) -> Void
+        id: Int,
+        title: String?,
+        specification: String?,
+        duration: String?,
+        completion: @escaping () -> Void
     ) {
-        let task = Task(context: viewContext)
-        task.title = title
-        task.specification = specification
-        task.closed = false
-        task.duration = duration
-        saveContext()
-        // TODO: check threads
-        DispatchQueue.main.async {
-            completion(task)
+        DispatchQueue.global().async { [weak self] in
+            guard let self else { return }
+            let task = Task(context: viewContext)
+            task.id = Int16(id)
+            task.title = title
+            task.specification = specification
+            task.isClosed = false
+            task.duration = duration
+            saveContext()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            completion()
         }
     }
     
     func fetchTasks(
         completion: @escaping (Result<[Task], StorageError>) -> Void
     ) {
-        let fetchRequest = Task.fetchRequest()
-        do {
-            let tasks = try viewContext.fetch(fetchRequest)
-            completion(.success(tasks))
-        } catch {
-            completion(.failure(.unknown(error)))
+        DispatchQueue.global().async { [weak self] in
+            guard let self else { return }
+            let fetchRequest = Task.fetchRequest()
+            do {
+                let tasks = try viewContext.fetch(fetchRequest)
+                completion(.success(tasks))
+            } catch {
+                completion(.failure(.unknown(error)))
+            }
         }
     }
     
-    func update(_ task: Task, completion: @escaping () -> Void) {
-        task.closed.toggle()
-        saveContext()
-        completion()
+    func updateMark(of task: Task, completion: @escaping () -> Void) {
+        DispatchQueue.global().async { [weak self] in
+            guard let self else { return }
+            task.isClosed.toggle()
+            saveContext()
+        }
+        DispatchQueue.main.async {
+            completion()
+        }
+    }
+    
+    func update(
+        _ task: Task,
+        title: String?,
+        specification: String?,
+        isClosed: Bool,
+        duration: String?,
+        completion: @escaping () -> Void
+    ) {
+        DispatchQueue.global().async { [weak self] in
+            guard let self else { return }
+            task.title = title
+            task.specification = specification
+            task.isClosed = isClosed
+            task.duration = duration
+            saveContext()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            completion()
+        }
     }
     
     func delete(_ task: Task, completion: @escaping () -> Void) {
-        
+        DispatchQueue.global().async { [weak self] in
+            guard let self else { return }
+            viewContext.delete(task)
+            saveContext()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            completion()
+        }
     }
 }

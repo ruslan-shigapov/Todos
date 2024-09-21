@@ -10,6 +10,7 @@ struct TasksResponse: Decodable {
 }
 
 struct TaskResponse: Decodable {
+    var id: Int
     var todo: String
     var completed: Bool
 }

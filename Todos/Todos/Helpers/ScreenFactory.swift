@@ -15,9 +15,11 @@ struct ScreenFactory {
     }
     
     static func getEditorViewController(
-        viewModel: EditorViewModelProtocol
+        viewModel: EditorViewModelProtocol,
+        delegate: EditorViewControllerDelegate?
     ) -> UIViewController {
-        UINavigationController(
-            rootViewController: EditorViewController(viewModel: viewModel))
+        let editorVC = EditorViewController(viewModel: viewModel)
+        editorVC.delegate = delegate
+        return UINavigationController(rootViewController: editorVC)
     }
 }

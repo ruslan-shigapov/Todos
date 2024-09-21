@@ -31,11 +31,9 @@ final class CustomTextField: UITextField {
     private func setupUI() {
         attributedPlaceholder = NSAttributedString(
             string: type.rawValue.capitalized,
-            attributes: [
-                .font: UIFont.systemFont(ofSize: 15, weight: .medium),
-                .foregroundColor: UIColor.lightGray
-            ])
-        textColor = .black.withAlphaComponent(0.7)
+            attributes: [ .foregroundColor: UIColor.lightGray ])
+        textColor = .black
+        font = .systemFont(ofSize: 15, weight: .medium)
         heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
 }

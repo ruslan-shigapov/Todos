@@ -10,7 +10,13 @@ import Foundation
 protocol TaskCollectionViewCellDelegate: AnyObject {
     var taskWasMarked: (() -> Void)? { get set }
 }
-protocol TodosViewModelProtocol: TaskCollectionViewCellDelegate {
+
+protocol EditorViewControllerDelegate: AnyObject {
+    var tasksWereUpdated: (() -> Void)? { get set }
+}
+
+protocol TodosViewModelProtocol: TaskCollectionViewCellDelegate,
+                                 EditorViewControllerDelegate {
     func getCurrentFormattedDate() -> String
     func fetchTasks(
         completion: @escaping () -> Void,
@@ -33,13 +39,10 @@ final class TodosViewModel: TodosViewModelProtocol {
     }
     
     private var tasks: [Task] = []
-    private var filteredTasks: [Task] = [] {
-        didSet {
-            // TODO: setup sorting ?
-        }
-    }
+    private var filteredTasks: [Task] = []
 
     var taskWasMarked: (() -> Void)?
+    var tasksWereUpdated: (() -> Void)?
     
     private func fetchTasksFromNetwork(
         completion: @escaping () -> Void,
@@ -50,7 +53,7 @@ final class TodosViewModel: TodosViewModelProtocol {
             switch result {
                 case .success(let tasksResponse):
                 UserDefaults.standard.set(true, forKey: "wasDataReceived")
-                StorageManager.shared.save(tasksResponse)
+                StorageManager.shared.saveTasks(tasksResponse)
                 fetchTasksFromStorage(
                     completion: completion,
                     errorHandler: errorHandler)
@@ -107,9 +110,10 @@ final class TodosViewModel: TodosViewModelProtocol {
     func applyFilter(bySelection selection: FilterTasksButtonSelection) {
         switch selection {
         case .all: filteredTasks = tasks
-        case .open: filteredTasks = tasks.filter { !$0.closed }
-        case .closed: filteredTasks = tasks.filter { $0.closed }
+        case .open: filteredTasks = tasks.filter { !$0.isClosed }
+        case .closed: filteredTasks = tasks.filter { $0.isClosed }
         }
+        filteredTasks.sort { $0.id > $1.id }
     }
     
     func getNumberOfItems() -> Int {
@@ -121,7 +125,7 @@ final class TodosViewModel: TodosViewModelProtocol {
     }
     
     func getNumberOfClosedTasks() -> Int {
-        tasks.filter { $0.closed }.count
+        tasks.filter { $0.isClosed }.count
     }
     
     func getNumberOfOpenTasks() -> Int {
@@ -133,10 +137,12 @@ final class TodosViewModel: TodosViewModelProtocol {
     }
     
     func getEditorViewModel() -> EditorViewModelProtocol {
-        EditorViewModel(task: nil)
+        EditorViewModel(task: nil, numberOfAllTasks: tasks.count)
     }
     
     func getEditorViewModel(at index: Int) -> EditorViewModelProtocol {
-        EditorViewModel(task: filteredTasks[index])
+        EditorViewModel(
+            task: filteredTasks[index],
+            numberOfAllTasks: tasks.count)
     }
 }

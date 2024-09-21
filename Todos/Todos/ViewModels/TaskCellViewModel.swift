@@ -20,19 +20,26 @@ final class TaskCellViewModel: TaskCellViewModelProtocol {
     private let task: Task
     
     var title: String {
-        task.title ?? Constants.newTask
+        guard let title = task.title, !title.isEmpty else {
+            return Constants.newTask
+        }
+        return title
     }
     
     var description: String {
-        task.specification ?? Constants.createdByMe
+        guard let specification = task.specification,
+              !specification.isEmpty else {
+            return Constants.byMyself
+        }
+        return specification
     }
     
     var isClosed: Bool {
-        task.closed
+        task.isClosed
     }
     
     var duration: String {
-        task.duration ?? "" // TODO: "01:00 PM - 03:00 PM" such format
+        task.duration ?? "" 
     }
     
     init(task: Task) {
@@ -40,10 +47,8 @@ final class TaskCellViewModel: TaskCellViewModelProtocol {
     }
     
     func markTask(completion: @escaping () -> Void) {
-        StorageManager.shared.update(task) {
-            DispatchQueue.main.async {
-                completion()
-            }
+        StorageManager.shared.updateMark(of: task) {
+            completion()
         }
     }
 }

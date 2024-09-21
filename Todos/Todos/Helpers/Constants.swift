@@ -14,6 +14,8 @@ enum Constants {
     static let checkmarkImageName = "checkmark.circle.fill"
     static let today = "Today"
     static let fromNetwork = "From Network"
-    static let createdByMe = "Created by Me"
+    static let byMyself = "By Myself"
     static let editTask = "Edit Task"
+    static let startTime = "Start Time"
+    static let endTime = "End Time"
 }

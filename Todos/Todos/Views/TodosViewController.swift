@@ -122,6 +122,18 @@ final class TodosViewController: UIViewController {
                 }
             }
         }
+        viewModel.tasksWereUpdated = { [weak self] in
+            guard let self,
+                  let filterAllTasksButton = filterTasksButtons.first else {
+                return
+            }
+            viewModel.fetchTasks {
+                self.filterTasksButtonTapped(filterAllTasksButton)
+                self.setupFilterTasksButtons()
+            } errorHandler: {
+                // TODO: show alert ?
+            }
+        }
     }
     
     private func setupContent() {
@@ -137,6 +149,7 @@ final class TodosViewController: UIViewController {
         } errorHandler: { [weak self] in
             guard let self else { return }
             loadingIndicator.stopAnimating()
+            // TODO: show alert ?
         }
     }
     
@@ -173,7 +186,8 @@ final class TodosViewController: UIViewController {
     
     @objc private func addNewTaskButtonTapped() {
         let editorVC = ScreenFactory.getEditorViewController(
-            viewModel: viewModel.getEditorViewModel())
+            viewModel: viewModel.getEditorViewModel(),
+            delegate: viewModel as EditorViewControllerDelegate)
         present(editorVC, animated: true)
     }
     
@@ -220,7 +234,8 @@ extension TodosViewController: UICollectionViewDelegateFlowLayout {
         didSelectItemAt indexPath: IndexPath
     ) {
         let editorVC = ScreenFactory.getEditorViewController(
-            viewModel: viewModel.getEditorViewModel(at: indexPath.item))
+            viewModel: viewModel.getEditorViewModel(at: indexPath.item),
+            delegate: viewModel as EditorViewControllerDelegate)
         present(editorVC, animated: true)
     }
 }

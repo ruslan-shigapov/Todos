@@ -52,7 +52,23 @@ final class EditorViewController: UIViewController {
     
     private lazy var durationBackView = RoundedBackView(
         subview: durationStackView)
+    
+    private lazy var deleteButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Delete Task", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .regular)
+        button.tintColor = .red
+        button.addTarget(
+            self,
+            action: #selector(deleteButtonTapped),
+            for: .touchUpInside)
+        return button
+    }()
+    
+    // MARK: Public Properties
+    weak var delegate: EditorViewControllerDelegate?
 
+    
     // MARK: Initialize
     init(viewModel: EditorViewModelProtocol) {
         self.viewModel = viewModel
@@ -68,6 +84,7 @@ final class EditorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupContent()
         addDismissTapRecognizer()
     }
     
@@ -77,8 +94,19 @@ final class EditorViewController: UIViewController {
         view.backgroundColor = .background
         view.addSubview(textFieldBackView)
         view.addSubview(durationBackView)
+        view.addSubview(deleteButton)
         view.prepareForAutoLayout()
         setConstraints()
+    }
+    
+    private func setupContent() {
+        if viewModel.isNewTask {
+            
+            deleteButton.isHidden = true
+        } else {
+            titleTextField.text = viewModel.title
+            descriptionTextField.text = viewModel.description
+        }
     }
     
     private func setupNavigationBar() {
@@ -89,11 +117,11 @@ final class EditorViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .cancel,
             target: self,
-            action: nil)
+            action: #selector(cancelButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .done,
             target: self,
-            action: nil)
+            action: #selector(doneButtonTapped))
     }
     
     private func addDismissTapRecognizer() {
@@ -105,6 +133,31 @@ final class EditorViewController: UIViewController {
     
     @objc private func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    @objc private func cancelButtonTapped() {
+        dismiss(animated: true)
+    }
+    
+    @objc private func doneButtonTapped() {
+        viewModel.saveTask(
+            title: titleTextField.text,
+            specification: descriptionTextField.text,
+            startTime: "",
+            endTime: ""
+        ) { [weak self] in
+            guard let self else { return }
+            delegate?.tasksWereUpdated?()
+            dismiss(animated: true)
+        }
+    }
+    
+    @objc private func deleteButtonTapped() {
+        viewModel.deleteTask { [weak self] in
+            guard let self else { return }
+            delegate?.tasksWereUpdated?()
+            dismiss(animated: true)
+        }
     }
 }
 
@@ -131,7 +184,12 @@ private extension EditorViewController {
                 constant: 24),
             durationBackView.trailingAnchor.constraint(
                 equalTo: view.trailingAnchor,
-                constant: -24)
+                constant: -24),
+            
+            deleteButton.topAnchor.constraint(
+                equalTo: durationBackView.bottomAnchor,
+                constant: 32),
+            deleteButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
 }
