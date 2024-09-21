@@ -39,7 +39,16 @@ final class TaskCellViewModel: TaskCellViewModelProtocol {
     }
     
     var duration: String {
-        task.duration ?? "" 
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm a"
+        if let startTime = task.startTime, let endTime = task.endTime {
+            let formattedStartTime = dateFormatter.string(from: startTime)
+            let formattedEndTime = dateFormatter.string(from: endTime)
+            return "\(formattedStartTime) - \(formattedEndTime)"
+        } else if let startTime = task.startTime {
+            return "\(dateFormatter.string(from: startTime))"
+        }
+        return ""
     }
     
     init(task: Task) {

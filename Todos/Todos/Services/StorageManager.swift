@@ -53,7 +53,6 @@ extension StorageManager {
             task.title = $0.todo
             task.specification = Constants.fromNetwork
             task.isClosed = $0.completed
-            task.duration = ""
         }
         saveContext()
     }
@@ -62,7 +61,8 @@ extension StorageManager {
         id: Int,
         title: String?,
         specification: String?,
-        duration: String?,
+        startTime: Date?,
+        endTime: Date?,
         completion: @escaping () -> Void
     ) {
         DispatchQueue.global().async { [weak self] in
@@ -72,7 +72,8 @@ extension StorageManager {
             task.title = title
             task.specification = specification
             task.isClosed = false
-            task.duration = duration
+            task.startTime = startTime
+            task.endTime = endTime
             saveContext()
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
@@ -83,15 +84,12 @@ extension StorageManager {
     func fetchTasks(
         completion: @escaping (Result<[Task], StorageError>) -> Void
     ) {
-        DispatchQueue.global().async { [weak self] in
-            guard let self else { return }
-            let fetchRequest = Task.fetchRequest()
-            do {
-                let tasks = try viewContext.fetch(fetchRequest)
-                completion(.success(tasks))
-            } catch {
-                completion(.failure(.unknown(error)))
-            }
+        let fetchRequest = Task.fetchRequest()
+        do {
+            let tasks = try viewContext.fetch(fetchRequest)
+            completion(.success(tasks))
+        } catch {
+            completion(.failure(.unknown(error)))
         }
     }
     
@@ -111,7 +109,8 @@ extension StorageManager {
         title: String?,
         specification: String?,
         isClosed: Bool,
-        duration: String?,
+        startTime: Date?,
+        endTime: Date?,
         completion: @escaping () -> Void
     ) {
         DispatchQueue.global().async { [weak self] in
@@ -119,7 +118,8 @@ extension StorageManager {
             task.title = title
             task.specification = specification
             task.isClosed = isClosed
-            task.duration = duration
+            task.startTime = startTime
+            task.endTime = endTime
             saveContext()
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {

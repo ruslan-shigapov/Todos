@@ -130,9 +130,7 @@ final class TodosViewController: UIViewController {
             viewModel.fetchTasks {
                 self.filterTasksButtonTapped(filterAllTasksButton)
                 self.setupFilterTasksButtons()
-            } errorHandler: {
-                // TODO: show alert ?
-            }
+            } errorHandler: {}
         }
     }
     
@@ -149,7 +147,6 @@ final class TodosViewController: UIViewController {
         } errorHandler: { [weak self] in
             guard let self else { return }
             loadingIndicator.stopAnimating()
-            // TODO: show alert ?
         }
     }
     

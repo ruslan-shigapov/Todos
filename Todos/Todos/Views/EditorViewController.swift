@@ -10,7 +10,7 @@ import UIKit
 final class EditorViewController: UIViewController {
     
     // MARK: Private Properties
-    private let viewModel: EditorViewModelProtocol
+    private var viewModel: EditorViewModelProtocol
     
     // MARK: Views
     private lazy var titleTextField = CustomTextField(type: .title, tag: 1)
@@ -55,7 +55,7 @@ final class EditorViewController: UIViewController {
     
     private lazy var deleteButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Delete Task", for: .normal)
+        button.setTitle(Constants.deleteTask, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: .regular)
         button.tintColor = .red
         button.addTarget(
@@ -86,6 +86,7 @@ final class EditorViewController: UIViewController {
         setupUI()
         setupContent()
         addDismissTapRecognizer()
+        handleEvents()
     }
     
     // MARK: Private Methods
@@ -101,11 +102,12 @@ final class EditorViewController: UIViewController {
     
     private func setupContent() {
         if viewModel.isNewTask {
-            
             deleteButton.isHidden = true
         } else {
             titleTextField.text = viewModel.title
             descriptionTextField.text = viewModel.description
+            startTimeStackView.setTime(viewModel.startTime)
+            endTimeStackView.setTime(viewModel.endTime)
         }
     }
     
@@ -131,6 +133,20 @@ final class EditorViewController: UIViewController {
         view.addGestureRecognizer(tapRecognizer)
     }
     
+    private func handleEvents() {
+        viewModel.durationWasInvalid = { [weak self] in
+            guard let self else { return }
+            let alertController = UIAlertController(
+                title: Constants.alertTitle,
+                message: "",
+                preferredStyle: .alert
+            )
+            let alertAction = UIAlertAction(title: "OK", style: .default)
+            alertController.addAction(alertAction)
+            present(alertController, animated: true)
+        }
+    }
+    
     @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
@@ -143,8 +159,8 @@ final class EditorViewController: UIViewController {
         viewModel.saveTask(
             title: titleTextField.text,
             specification: descriptionTextField.text,
-            startTime: "",
-            endTime: ""
+            startTime: startTimeStackView.getTime(),
+            endTime: endTimeStackView.getTime()
         ) { [weak self] in
             guard let self else { return }
             delegate?.tasksWereUpdated?()

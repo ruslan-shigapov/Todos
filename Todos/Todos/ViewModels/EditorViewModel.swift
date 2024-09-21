@@ -5,16 +5,21 @@
 //  Created by Ruslan Shigapov on 20.09.2024.
 //
 
+import Foundation
+
 protocol EditorViewModelProtocol {
+    var durationWasInvalid: (() -> Void)? { get set }
     var isNewTask: Bool { get }
     var navigationTitle: String { get }
     var title: String { get }
     var description: String { get }
+    var startTime: Date? { get }
+    var endTime: Date? { get }
     func saveTask(
         title: String?,
         specification: String?,
-        startTime: String?,
-        endTime: String?,
+        startTime: Date?,
+        endTime: Date?,
         completion: @escaping () -> Void
     )
     func deleteTask(completion: @escaping () -> Void)
@@ -24,6 +29,8 @@ final class EditorViewModel: EditorViewModelProtocol {
     
     private let task: Task?
     private let numberOfAllTasks: Int
+    
+    var durationWasInvalid: (() -> Void)?
     
     var isNewTask: Bool {
         task == nil
@@ -41,32 +48,52 @@ final class EditorViewModel: EditorViewModelProtocol {
         task?.specification ?? ""
     }
     
-    //
+    var startTime: Date? {
+        task?.startTime
+    }
+    
+    var endTime: Date? {
+        task?.endTime
+    }
     
     init(task: Task?, numberOfAllTasks: Int) {
         self.task = task
         self.numberOfAllTasks = numberOfAllTasks
     }
     
-    private func formatDuration() -> String? {
-        nil // TODO: "01:00 PM - 03:00 PM" such format
-    }
-    
     func saveTask(
         title: String?,
         specification: String?,
-        startTime: String?,
-        endTime: String?,
+        startTime: Date?,
+        endTime: Date?,
         completion: @escaping () -> Void
     ) {
+        if let endTime {
+            guard let startTime, startTime < endTime else {
+                durationWasInvalid?()
+                return
+            }
+            let endTimeComponents = Calendar.current.dateComponents(
+                [.hour, .minute],
+                from: endTime)
+            let startTimeComponents = Calendar.current.dateComponents(
+                [.hour, .minute],
+                from: startTime)
+            if endTimeComponents == startTimeComponents {
+                durationWasInvalid?()
+                return
+            }
+        }
         if isNewTask {
             StorageManager.shared.createTask(
                 id: numberOfAllTasks + 1,
                 title: title,
                 specification: specification,
-                duration: formatDuration()) {
-                    completion()
-                }
+                startTime: startTime,
+                endTime: endTime
+            ) {
+                completion()
+            }
         } else {
             guard let task else { return }
             StorageManager.shared.update(
@@ -74,9 +101,11 @@ final class EditorViewModel: EditorViewModelProtocol {
                 title: title,
                 specification: specification,
                 isClosed: task.isClosed,
-                duration: formatDuration()) {
-                    completion()
-                }
+                startTime: startTime,
+                endTime: endTime
+            ) {
+                completion()
+            }
         }
     }
     

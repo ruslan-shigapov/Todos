@@ -98,13 +98,18 @@ final class TodosViewModel: TodosViewModelProtocol {
         completion: @escaping () -> Void,
         errorHandler: @escaping () -> Void
     ) {
-        wasDataReceived
-        ? fetchTasksFromStorage(
-            completion: completion,
-            errorHandler: errorHandler)
-        : fetchTasksFromNetwork(
-            completion: completion,
-            errorHandler: errorHandler)
+        if wasDataReceived {
+            DispatchQueue.global().async { [weak self] in
+                guard let self else { return }
+                fetchTasksFromStorage(
+                    completion: completion,
+                    errorHandler: errorHandler)
+            }
+        } else {
+            fetchTasksFromNetwork(
+                completion: completion,
+                errorHandler: errorHandler)
+        }
     }
     
     func applyFilter(bySelection selection: FilterTasksButtonSelection) {

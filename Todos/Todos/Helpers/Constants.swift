@@ -18,4 +18,6 @@ enum Constants {
     static let editTask = "Edit Task"
     static let startTime = "Start Time"
     static let endTime = "End Time"
+    static let deleteTask = "Delete Task"
+    static let alertTitle = "Please verify the accuracy of the time duration."
 }

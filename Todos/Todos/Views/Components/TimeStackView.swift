@@ -13,8 +13,10 @@ enum TimeStackViewType {
 
 final class TimeStackView: UIStackView {
     
+    // MARK: Private Properties
     private let type: TimeStackViewType
     
+    // MARK: Views
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = switch type {
@@ -53,6 +55,7 @@ final class TimeStackView: UIStackView {
         return datePicker
     }()
     
+    // MARK: Initialize
     init(type: TimeStackViewType) {
         self.type = type
         super.init(frame: .zero)
@@ -63,7 +66,8 @@ final class TimeStackView: UIStackView {
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
+    // MARK: Private Methods
     private func setupUI() {
         addArrangedSubview(titleStackView)
         axis = .vertical
@@ -77,5 +81,17 @@ final class TimeStackView: UIStackView {
             removeArrangedSubview(timePicker)
             timePicker.removeFromSuperview()
         }
+    }
+    
+    // MARK: Public Methods
+    func setTime(_ time: Date?) {
+        guard let time else { return }
+        switchButton.isOn = true
+        addArrangedSubview(timePicker)
+        return timePicker.date = time
+    }
+    
+    func getTime() -> Date? {
+        switchButton.isOn ? timePicker.date : nil
     }
 }
