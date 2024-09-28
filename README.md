@@ -16,6 +16,6 @@
    - Данные о задачах должны сохраняться в CoreData.
    - Приложение должно корректно восстанавливать данные при повторном запуске.
 
-![Simulator Screenshot - iPhone 15 Pro - 2024-09-28 at 12 29 01](https://github.com/user-attachments/assets/96323d61-f0b0-4e84-ac79-10601e94ccb0)
+<img width="388" alt="Снимок экрана 2024-09-28 в 12 36 15" src="https://github.com/user-attachments/assets/dc2d37d9-0969-4a92-834b-46fdb96d08b8">
 
-![Simulator Screenshot - iPhone 15 Pro - 2024-09-28 at 12 29 41](https://github.com/user-attachments/assets/5eb7dfb3-8927-4945-a26c-f204c766587f)
+<img width="388" alt="Снимок экрана 2024-09-28 в 12 36 28" src="https://github.com/user-attachments/assets/76821702-91b7-4e93-bf7e-2ee3b28e5581">
