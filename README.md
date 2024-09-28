@@ -16,7 +16,6 @@
    - Данные о задачах должны сохраняться в CoreData.
    - Приложение должно корректно восстанавливать данные при повторном запуске.
 
-Будет бонусом:
-5. Архитектура VIPER: Приложение должно быть построено с использованием архитектуры VIPER. Каждый модуль должен быть четко разделен на компоненты: View, Interactor, Presenter, Entity, Router.
-6. Используйте систему контроля версий GIT для разработки.
-7. Напишите юнит-тесты для основных компонентов приложения.
+![Simulator Screenshot - iPhone 15 Pro - 2024-09-28 at 12 29 01](https://github.com/user-attachments/assets/96323d61-f0b0-4e84-ac79-10601e94ccb0)
+
+![Simulator Screenshot - iPhone 15 Pro - 2024-09-28 at 12 29 41](https://github.com/user-attachments/assets/5eb7dfb3-8927-4945-a26c-f204c766587f)
